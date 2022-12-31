@@ -116,6 +116,16 @@ if(ENABLE_TESTING)
   enable_testing()
   enable_language(Fortran)
 
+  add_executable(test_blas_l2_double tests/dblat2.f)
+  target_link_libraries(test_blas_l2_double PRIVATE linalg)
+  add_test(NAME BLAS-L2-DOUBLE COMMAND
+    ${CMAKE_COMMAND}
+    -DTESTCMD=$<TARGET_FILE:test_blas_l2_double> -DTESTINP=${CMAKE_SOURCE_DIR}/tests/dblat2.in
+    -DTESTOUT=${CMAKE_BINARY_DIR}/test_blas_l2_double.out -P ${CMAKE_SOURCE_DIR}/tests/runtest.cmake
+  )
+  set_tests_properties(BLAS-L2-DOUBLE PROPERTIES
+    FAIL_REGULAR_EXPRESSION "SUSPECT")
+
   add_executable(test_blas_l3_double tests/dblat3.f)
   target_link_libraries(test_blas_l3_double PRIVATE linalg)
   add_test(NAME BLAS-L3-DOUBLE COMMAND

@@ -86,7 +86,7 @@ foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
                            -e s,z_\\\(abs\\\|div\\\)\(,z_lmp_\\1\(,g
                            -e s,i_\\\(len\\\|nint\\\|dnnt\\\)\(,i_lmp_\\1\(,g
                            -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g > ${_CXX}
-        COMMAND ${CMAKE_COMMAND} -E rm -f ${_CXX}.tmp)
+        COMMAND ${CMAKE_COMMAND} -E remove -f ${_CXX}.tmp)
 endforeach()
 
 add_library(linalg STATIC ${TRANSLATED_CXX_FILES} ${CMAKE_BINARY_DIR}/lmp_f2c.h)

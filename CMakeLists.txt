@@ -75,8 +75,8 @@ configure_file(${CMAKE_SOURCE_DIR}/static/lmp_f2c.h ${CMAKE_BINARY_DIR}/lmp_f2c.
 foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
   string(REGEX REPLACE ".*(fortran|static).([^.]*)\\.f\$" "${CMAKE_CURRENT_BINARY_DIR}/\\2.cpp" _CXX ${_F})
   add_custom_command(OUTPUT ${_CXX} VERBATIM
-    COMMAND ${F2C_COMMAND} -C++ -a -f < ${_F} | 
-            ${CMAKE_CXX_COMPILER} -fpreprocessed -dD -P -E - | 
+    COMMAND ${F2C_COMMAND} -C++ -a -f < ${_F} |
+            ${CMAKE_CXX_COMPILER} -fpreprocessed -dD -P -E - |
             ${CLANG_FORMAT} --style=file:${CMAKE_SOURCE_DIR}/.clang-format > ${_CXX}
     COMMAND ${SED_COMMAND} -i -e s,\\\(\"\[^\"\]\\\+\"\\\),\(char\ *\)\\1,g
                               -e s,^extern.*\"C\",extern\ \"C\",
@@ -88,7 +88,7 @@ foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
                               -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g ${_CXX}
                               MAIN_DEPENDENCY ${_F})
 endforeach()
-  
+
 add_library(linalg STATIC ${TRANSLATED_CXX_FILES} ${CMAKE_BINARY_DIR}/lmp_f2c.h)
 
 add_custom_target(tar ALL BYPRODUCTS ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION}.tar.gz
@@ -112,25 +112,6 @@ else()
 endif()
 
 if(ENABLE_TESTING)
-  # valgrind support
-  find_program(VALGRIND_BINARY NAMES valgrind)
-  if(VALGRIND_BINARY)
-    message(STATUS "Found valgrind at ${VALGRIND_BINARY}")
-    set(MEMORYCHECK_COMMAND "${VALGRIND_BINARY}"
-      CACHE FILEPATH "Memory Check Command")
-    set(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-leak-kinds=all --track-origins=yes"
-      CACHE STRING "Memory Check Command Options")
-  endif()
-  # code coverage
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    option(ENABLE_COVERAGE "Enable collecting code coverage data" OFF)
-    mark_as_advanced(ENABLE_COVERAGE)
-    if(ENABLE_COVERAGE)
-      target_compile_options(linalg PUBLIC --coverage)
-      target_link_options(linalg PUBLIC --coverage)
-    endif()
-  endif()
-
   include(CTest)
   enable_testing()
   enable_language(Fortran)

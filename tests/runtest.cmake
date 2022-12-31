@@ -3,6 +3,7 @@ execute_process(COMMAND ${TESTCMD} INPUT_FILE ${TESTINP} OUTPUT_FILE ${TESTOUT} 
 
 file(READ ${TESTOUT} TEST_OUTPUT)
 message("Test output: ${TEST_OUTPUT}")
+file(REMOVE ${TESTOUT})
 
 if(NOT (RET EQUAL 0))
   message(FATAL_ERROR "Test program ${TESTCMD} returned ${RET}")

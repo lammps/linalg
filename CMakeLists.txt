@@ -101,4 +101,49 @@ add_custom_target(tar ALL BYPRODUCTS ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-$
 message("\n${NUM_STANDARD_FORTRAN} standard Fortran files, "
     "${NUM_CUSTOM_FORTRAN} custom Fortran files, "
     "${NUM_CUSTOM_CXX} custom C++ files\n")
-    
+
+# set up tests
+
+include(CheckLanguage)
+check_language(Fortran)
+if(NOT CMAKE_Fortran_COMPILER)
+  unset(ENABLE_TESTING FORCE)
+  message(STATUS "Could not find working Fortran compiler. Testing not available")
+else()
+  option(ENABLE_TESTING "Enable or disable testing" ON)
+endif()
+
+if(ENABLE_TESTING)
+  # valgrind support
+  find_program(VALGRIND_BINARY NAMES valgrind)
+  if(VALGRIND_BINARY)
+    message(STATUS "Found valgrind at ${VALGRIND_BINARY}")
+    set(MEMORYCHECK_COMMAND "${VALGRIND_BINARY}"
+      CACHE FILEPATH "Memory Check Command")
+    set(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --show-leak-kinds=all --track-origins=yes"
+      CACHE STRING "Memory Check Command Options")
+  endif()
+  # code coverage
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    option(ENABLE_COVERAGE "Enable collecting code coverage data" OFF)
+    mark_as_advanced(ENABLE_COVERAGE)
+    if(ENABLE_COVERAGE)
+      target_compile_options(linalg PUBLIC --coverage)
+      target_link_options(linalg PUBLIC --coverage)
+    endif()
+  endif()
+
+  include(CTest)
+  enable_testing()
+  enable_language(Fortran)
+
+  add_executable(test_blas_l3_double tests/dblat3.f)
+  target_link_libraries(test_blas_l3_double PRIVATE linalg)
+  add_test(NAME BLAS-L3-DOUBLE COMMAND
+    ${CMAKE_COMMAND}
+    -DTESTCMD=$<TARGET_FILE:test_blas_l3_double> -DTESTINP=${CMAKE_SOURCE_DIR}/tests/dblat3.in
+    -DTESTOUT=${CMAKE_BINARY_DIR}/test_blas_l3_double.out -P ${CMAKE_SOURCE_DIR}/tests/runtest.cmake
+  )
+  set_tests_properties(BLAS-L3-DOUBLE PROPERTIES
+    FAIL_REGULAR_EXPRESSION "SUSPECT")
+endif()

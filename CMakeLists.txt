@@ -146,4 +146,14 @@ if(ENABLE_TESTING)
   )
   set_tests_properties(BLAS-L3-DOUBLE PROPERTIES
     FAIL_REGULAR_EXPRESSION "SUSPECT")
+
+  add_executable(test_blas_zgemm tests/zblat3.f)
+  target_link_libraries(test_blas_zgemm PRIVATE linalg)
+  add_test(NAME BLAS-ZGEMM COMMAND
+    ${CMAKE_COMMAND}
+    -DTESTCMD=$<TARGET_FILE:test_blas_zgemm> -DTESTINP=${CMAKE_SOURCE_DIR}/tests/zblat3.in
+    -DTESTOUT=${CMAKE_BINARY_DIR}/test_blas_zgemm.out -P ${CMAKE_SOURCE_DIR}/tests/runtest.cmake
+  )
+  set_tests_properties(BLAS-ZGEMM PROPERTIES
+    FAIL_REGULAR_EXPRESSION "SUSPECT")
 endif()

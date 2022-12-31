@@ -41,7 +41,7 @@ file(GLOB CUSTOM_FORTRAN_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/s
 
 # skip Fortran files for which we have alternatives
 list(FILTER STANDARD_FORTRAN_SOURCES
-  EXCLUDE REGEX "(dgetrf2|disnan|dlaisnan|dlamch|dpotrf2|lsame|xerbla|zlarft)\\.f\$")
+  EXCLUDE REGEX "(dgetrf2|disnan|dlaisnan|dlarft|dlamch|dpotrf2|lsame|xerbla|zlarft)\\.f\$")
 
 # collect custom C++ source files
 file(GLOB CUSTOM_CXX_SOURCES CONFIGURE_DEPENDS

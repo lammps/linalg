@@ -24,16 +24,14 @@ endif(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CXX_FLAGS)
 # Check for tools
 # f2c is required for Fortran to C++ translation
 find_program(F2C_COMMAND NAMES f2c f2c.exe REQUIRED DOC "The f2c translater program")
+# sed is required to do some automated edits of the C++ code
 find_program(SED_COMMAND NAMES sed sed.exe REQUIRED DOC "The sed stream editor program")
 # clang-format is required to regularize the resulting files
-find_program(CLANG_FORMAT NAMES clang-format clang-format-18.0 clang-format-17.0
-  clang-format-16.0 clang-format-15.0 clang-format-14.0 clang-format-13.0 clang-format-12.0
-  clang-format-11.0 clang-format-10.0 clang-format-9.0 clang-format-8.0 clang-format-7.0
-  REQUIRED DOC "clang-format executable")
+find_program(CLANG_FORMAT NAMES clang-format REQUIRED DOC "clang-format executable")
 
 # We use a special compiler trick to remove comments
-if(NOT ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")))
-  message(FATAL_ERROR "Must use either GNU or Clang C++ compiler")
+if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
+  message(FATAL_ERROR "Must use GNU C++ compiler")
 endif()
 
 ########################################################################

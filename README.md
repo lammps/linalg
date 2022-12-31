@@ -16,8 +16,9 @@ LAMMPS code itself.
 
 The purpose of this package is to provide the source for the translated
 C++ files bundled with LAMMPS and easily allow to create updated
-versions for new LAPACK releases or add new functionality by updating or
-adding to the Fortran sources and re-running the translation to C++.
+versions for new LAPACK releases or add new functionality if required by
+added LAMMPS functionality through updating or adding to the Fortran
+sources and re-running the translation to C++.
 
 Most of the original Fortran code can be translated without change.
 Those are placed into the `fortran` folder.  A few other Fortran files
@@ -33,11 +34,18 @@ supposed to be used on.
 The included Fortran files correspond to LAPACK version 3.11.0 released
 on November 11th, 2022.
 
+# License
+
+Since the bulk of the code is an automated translation of the BLAS/LAPACK
+sources, the same licensing terms apply.  Additional or replacement code
+is copyright (c) 2022 by Axel Kohlmeyer `<akohlmey@gmail.com>`.
+
 # Installation
 
-This package use CMake to set up the translation, and compilation plus tests.
-CMake version 3.16 or later is required. Also required are f2c, the GNU C++
-compiler, clang-format, and sed.
+This package uses CMake to set up the translation, and compilation plus
+a few tests.  CMake version 3.16 or later is required. Also required are
+f2c, the GNU C++ compiler, clang-format, and sed.  This has only been
+tested on a Linux machine.
 
 Running the command:
 
@@ -56,3 +64,7 @@ as well as create a compressed tar file with the translated sources in the build
 
 If a suitable Fortran compiler was found, also a couple of tests for BLAS functions
 are configured and can be run with ctest.
+
+```
+ctest --test-dir build
+```

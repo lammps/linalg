@@ -36,7 +36,10 @@ on November 11th, 2022.
 # Installation
 
 This package use CMake to set up the translation, and compilation plus tests.
-CMake version 3.16 or later is required. Running the command:
+CMake version 3.16 or later is required. Also required are f2c, the GNU C++
+compiler, clang-format, and sed.
+
+Running the command:
 
 ```
 cmake -S . -B build
@@ -50,3 +53,6 @@ cmake --build build
 
 will do the translation and also try to compile the generated C++ files into a library
 as well as create a compressed tar file with the translated sources in the build folder.
+
+If a suitable Fortran compiler was found, also a couple of tests for BLAS functions
+are configured and can be run with ctest.

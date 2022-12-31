@@ -75,8 +75,8 @@ configure_file(${CMAKE_SOURCE_DIR}/static/lmp_f2c.h ${CMAKE_BINARY_DIR}/lmp_f2c.
 foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
   string(REGEX REPLACE ".*(fortran|static).([^.]*)\\.f\$" "${CMAKE_CURRENT_BINARY_DIR}/\\2.cpp" _CXX ${_F})
   add_custom_command(OUTPUT ${_CXX} VERBATIM MAIN_DEPENDENCY ${_F}
-    COMMAND ${F2C_COMMAND} -C++ -a -f < ${_F} |
-            ${CMAKE_CXX_COMPILER} -fpreprocessed -dD -P -E - |
+         COMMAND ${F2C_COMMAND} -C++ -a -f < ${_F} > ${_CXX}.tmp
+         COMMAND ${CMAKE_CXX_COMPILER} -fpreprocessed -dD -P -E - < ${_CXX}.tmp |
             ${CLANG_FORMAT} --style=file:${CMAKE_SOURCE_DIR}/.clang-format |
             ${SED_COMMAND} -e s,\\\(\"\[^\"\]\\\+\"\\\),\(char\ *\)\\1,g
                            -e s,^extern.*\"C\",extern\ \"C\",
@@ -85,7 +85,8 @@ foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
                            -e s,d_\\\(sign\\\|cnjg\\\|imag\\\|lg10\\\)\(,d_lmp_\\1\(,g
                            -e s,z_\\\(abs\\\|div\\\)\(,z_lmp_\\1\(,g
                            -e s,i_\\\(len\\\|nint\\\|dnnt\\\)\(,i_lmp_\\1\(,g
-                           -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g > ${_CXX})
+                           -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g > ${_CXX}
+        COMMAND ${CMAKE_COMMAND} -E rm -f ${_CXX}.tmp)
 endforeach()
 
 add_library(linalg STATIC ${TRANSLATED_CXX_FILES} ${CMAKE_BINARY_DIR}/lmp_f2c.h)

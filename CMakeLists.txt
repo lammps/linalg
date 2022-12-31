@@ -74,19 +74,18 @@ configure_file(${CMAKE_SOURCE_DIR}/static/lmp_f2c.h ${CMAKE_BINARY_DIR}/lmp_f2c.
 # - rename calls to libf2c functions to include lmp_ so they use the provided custom functions, e.g. s_cat becomes c_lmp_cat
 foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
   string(REGEX REPLACE ".*(fortran|static).([^.]*)\\.f\$" "${CMAKE_CURRENT_BINARY_DIR}/\\2.cpp" _CXX ${_F})
-  add_custom_command(OUTPUT ${_CXX} VERBATIM
+  add_custom_command(OUTPUT ${_CXX} VERBATIM MAIN_DEPENDENCY ${_F}
     COMMAND ${F2C_COMMAND} -C++ -a -f < ${_F} |
             ${CMAKE_CXX_COMPILER} -fpreprocessed -dD -P -E - |
-            ${CLANG_FORMAT} --style=file:${CMAKE_SOURCE_DIR}/.clang-format > ${_CXX}
-    COMMAND ${SED_COMMAND} -i -e s,\\\(\"\[^\"\]\\\+\"\\\),\(char\ *\)\\1,g
-                              -e s,^extern.*\"C\",extern\ \"C\",
-                              -e s,^\#include.*\"f2c.h\",\#include\ \"lmp_f2c.h\", ${_CXX}
-    COMMAND ${SED_COMMAND} -i -e s,s_\\\(cat\\\|cmp\\\|copy\\\)\(,s_lmp_\\1\(,g
-                              -e s,d_\\\(sign\\\|cnjg\\\|imag\\\|lg10\\\)\(,d_lmp_\\1\(,g
-                              -e s,z_\\\(abs\\\|div\\\)\(,z_lmp_\\1\(,g
-                              -e s,i_\\\(len\\\|nint\\\|dnnt\\\)\(,i_lmp_\\1\(,g
-                              -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g ${_CXX}
-                              MAIN_DEPENDENCY ${_F})
+            ${CLANG_FORMAT} --style=file:${CMAKE_SOURCE_DIR}/.clang-format |
+            ${SED_COMMAND} -e s,\\\(\"\[^\"\]\\\+\"\\\),\(char\ *\)\\1,g
+                           -e s,^extern.*\"C\",extern\ \"C\",
+                           -e s,^\#include.*\"f2c.h\",\#include\ \"lmp_f2c.h\",
+                           -e s,s_\\\(cat\\\|cmp\\\|copy\\\)\(,s_lmp_\\1\(,g
+                           -e s,d_\\\(sign\\\|cnjg\\\|imag\\\|lg10\\\)\(,d_lmp_\\1\(,g
+                           -e s,z_\\\(abs\\\|div\\\)\(,z_lmp_\\1\(,g
+                           -e s,i_\\\(len\\\|nint\\\|dnnt\\\)\(,i_lmp_\\1\(,g
+                           -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g > ${_CXX})
 endforeach()
 
 add_library(linalg STATIC ${TRANSLATED_CXX_FILES} ${CMAKE_BINARY_DIR}/lmp_f2c.h)

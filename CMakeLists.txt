@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.16..3.25)
 
-project(linalg VERSION 1.0
+project(linalg VERSION 1.1
   DESCRIPTION "BLAS/LAPACK functions translated to C++ as required by the LAMMPS MD package"
   LANGUAGES CXX)
 

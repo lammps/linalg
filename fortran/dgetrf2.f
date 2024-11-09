@@ -109,7 +109,7 @@
 *> \ingroup getrf2
 *
 *  =====================================================================
-      RECURSIVE SUBROUTINE DGETRF2( M, N, A, LDA, IPIV, INFO )
+      SUBROUTINE DGETRF2( M, N, A, LDA, IPIV, INFO )
 *
 *  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

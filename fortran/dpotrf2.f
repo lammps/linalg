@@ -102,7 +102,7 @@
 *> \ingroup potrf2
 *
 *  =====================================================================
-      RECURSIVE SUBROUTINE DPOTRF2( UPLO, N, A, LDA, INFO )
+      SUBROUTINE DPOTRF2( UPLO, N, A, LDA, INFO )
 *
 *  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

@@ -104,7 +104,7 @@
 *> \ingroup complex16POcomputational
 *
 *  =====================================================================
-      RECURSIVE SUBROUTINE ZPOTRF2( UPLO, N, A, LDA, INFO )
+      SUBROUTINE ZPOTRF2( UPLO, N, A, LDA, INFO )
 *
 *  -- LAPACK computational routine (version 3.7.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --

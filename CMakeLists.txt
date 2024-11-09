@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.16..3.30)
 
-project(linalg VERSION 1.2
+project(linalg VERSION 1.3
   DESCRIPTION "BLAS/LAPACK functions translated to C++ as required by the LAMMPS MD package"
   LANGUAGES CXX)
 
@@ -33,6 +33,8 @@ find_program(CLANG_FORMAT NAMES clang-format REQUIRED DOC "clang-format executab
 if(NOT (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
   message(FATAL_ERROR "Must use GNU C++ compiler")
 endif()
+
+add_executable(lsplit tools/lsplit.cpp)
 
 ########################################################################
 # collect Fortran source files

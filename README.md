@@ -31,14 +31,14 @@ supposed to be used on.
 
 # Version
 
-The included Fortran files correspond to LAPACK version 3.12.0 released
-on November 24th, 2023.
+The included Fortran files correspond to LAPACK version 3.12.1 released
+on January 8th, 2025.
 
 # License
 
 Since the bulk of the code is an automated translation of the BLAS/LAPACK
 sources, the same licensing terms apply.  Additional or replacement code
-is copyright (c) 2022, 2023 by Axel Kohlmeyer `<akohlmey@gmail.com>`.
+is copyright (c) 2022, 2023, 2024, 2025 by Axel Kohlmeyer `<akohlmey@gmail.com>`.
 
 # Installation
 

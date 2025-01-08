@@ -1,8 +1,14 @@
-#!/bin/sh
+#!/bin/sh -vx
 # this command replaces typical long string with 
 # a single character same as the LAPACK subroutine requires.
 # In Fortran there is no difference, but in C++ it can matter.
-sed -i                                 \
+
+if [ $# -lt 1 ] ; then \
+        echo "usage: $0 <folder with fortran sources>"; \
+        exit 1;\
+fi
+
+exec sed -i                            \
     -e "s/'All'/'A'/g"                 \
     -e "s/'ALL'/'A'/g"                 \
     -e "s/'Right'/'R'/g"               \
@@ -25,4 +31,4 @@ sed -i                                 \
     -e "s/'Forward'/'F'/g"             \
     -e "s/'Columnwise'/'C'/g"          \
     -e "s/'Rowwise'/'R'/g"             \
-    fortran/*.f
+    "$1"/*.f

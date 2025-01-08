@@ -121,17 +121,14 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup complex16HEcomputational
+*> \ingroup hegst
 *
 *  =====================================================================
       SUBROUTINE ZHEGST( ITYPE, UPLO, N, A, LDA, B, LDB, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       CHARACTER          UPLO
@@ -155,7 +152,8 @@
       INTEGER            K, KB, NB
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           XERBLA, ZHEGS2, ZHEMM, ZHER2K, ZTRMM, ZTRSM
+      EXTERNAL           XERBLA, ZHEGS2, ZHEMM, ZHER2K, ZTRMM,
+     $                   ZTRSM
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN
@@ -224,7 +222,8 @@
                      CALL ZHEMM( 'L', UPLO, KB, N-K-KB+1, -HALF,
      $                           A( K, K ), LDA, B( K, K+KB ), LDB,
      $                           CONE, A( K, K+KB ), LDA )
-                     CALL ZHER2K( UPLO, 'C', N-K-KB+1,
+                     CALL ZHER2K( UPLO, 'C',
+     $                            N-K-KB+1,
      $                            KB, -CONE, A( K, K+KB ), LDA,
      $                            B( K, K+KB ), LDB, ONE,
      $                            A( K+KB, K+KB ), LDA )
@@ -249,7 +248,8 @@
                   CALL ZHEGS2( ITYPE, UPLO, KB, A( K, K ), LDA,
      $                         B( K, K ), LDB, INFO )
                   IF( K+KB.LE.N ) THEN
-                     CALL ZTRSM( 'R', UPLO, 'C',
+                     CALL ZTRSM( 'R', UPLO,
+     $                           'C',
      $                           'N', N-K-KB+1, KB, CONE,
      $                           B( K, K ), LDB, A( K+KB, K ), LDA )
                      CALL ZHEMM( 'R', UPLO, N-K-KB+1, KB, -HALF,
@@ -279,15 +279,18 @@
 *
 *                 Update the upper triangle of A(1:k+kb-1,1:k+kb-1)
 *
-                  CALL ZTRMM( 'L', UPLO, 'N', 'N',
+                  CALL ZTRMM( 'L', UPLO, 'N',
+     $                        'N',
      $                        K-1, KB, CONE, B, LDB, A( 1, K ), LDA )
-                  CALL ZHEMM( 'R', UPLO, K-1, KB, HALF, A( K, K ),
+                  CALL ZHEMM( 'R', UPLO, K-1, KB, HALF, A( K,
+     $                        K ),
      $                        LDA, B( 1, K ), LDB, CONE, A( 1, K ),
      $                        LDA )
                   CALL ZHER2K( UPLO, 'N', K-1, KB, CONE,
      $                         A( 1, K ), LDA, B( 1, K ), LDB, ONE, A,
      $                         LDA )
-                  CALL ZHEMM( 'R', UPLO, K-1, KB, HALF, A( K, K ),
+                  CALL ZHEMM( 'R', UPLO, K-1, KB, HALF, A( K,
+     $                        K ),
      $                        LDA, B( 1, K ), LDB, CONE, A( 1, K ),
      $                        LDA )
                   CALL ZTRMM( 'R', UPLO, 'C',
@@ -305,7 +308,8 @@
 *
 *                 Update the lower triangle of A(1:k+kb-1,1:k+kb-1)
 *
-                  CALL ZTRMM( 'R', UPLO, 'N', 'N',
+                  CALL ZTRMM( 'R', UPLO, 'N',
+     $                        'N',
      $                        KB, K-1, CONE, B, LDB, A( K, 1 ), LDA )
                   CALL ZHEMM( 'L', UPLO, KB, K-1, HALF, A( K, K ),
      $                        LDA, B( K, 1 ), LDB, CONE, A( K, 1 ),

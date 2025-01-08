@@ -107,17 +107,14 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup complex16GEcomputational
+*> \ingroup getri
 *
 *  =====================================================================
       SUBROUTINE ZGETRI( N, A, LDA, IPIV, WORK, LWORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       INTEGER            INFO, LDA, LWORK, N
@@ -144,7 +141,8 @@
       EXTERNAL           ILAENV
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           XERBLA, ZGEMM, ZGEMV, ZSWAP, ZTRSM, ZTRTRI
+      EXTERNAL           XERBLA, ZGEMM, ZGEMV, ZSWAP, ZTRSM,
+     $                   ZTRTRI
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN
@@ -155,7 +153,7 @@
 *
       INFO = 0
       NB = ILAENV( 1, 'ZGETRI', ' ', N, -1, -1, -1 )
-      LWKOPT = N*NB
+      LWKOPT = MAX( 1, N*NB )
       WORK( 1 ) = LWKOPT
       LQUERY = ( LWORK.EQ.-1 )
       IF( N.LT.0 ) THEN
@@ -190,7 +188,8 @@
          IWS = MAX( LDWORK*NB, 1 )
          IF( LWORK.LT.IWS ) THEN
             NB = LWORK / LDWORK
-            NBMIN = MAX( 2, ILAENV( 2, 'ZGETRI', ' ', N, -1, -1, -1 ) )
+            NBMIN = MAX( 2, ILAENV( 2, 'ZGETRI', ' ', N, -1, -1,
+     $                   -1 ) )
          END IF
       ELSE
          IWS = N
@@ -241,7 +240,8 @@
      $         CALL ZGEMM( 'No transpose', 'No transpose', N, JB,
      $                     N-J-JB+1, -ONE, A( 1, J+JB ), LDA,
      $                     WORK( J+JB ), LDWORK, ONE, A( 1, J ), LDA )
-            CALL ZTRSM( 'Right', 'Lower', 'No transpose', 'Unit', N, JB,
+            CALL ZTRSM( 'Right', 'Lower', 'No transpose', 'Unit', N,
+     $                  JB,
      $                  ONE, WORK( J ), LDWORK, A( 1, J ), LDA )
    50    CONTINUE
       END IF

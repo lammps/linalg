@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.16..3.30)
 
-project(linalg VERSION 1.3
+project(linalg VERSION 1.4
   DESCRIPTION "BLAS/LAPACK functions translated to C++ as required by the LAMMPS MD package"
   LANGUAGES CXX)
 
@@ -23,7 +23,7 @@ endif(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CXX_FLAGS)
 ########################################################################
 # Check for tools
 # f2c is required for Fortran to C++ translation
-find_program(F2C_COMMAND NAMES f2c f2c.exe REQUIRED DOC "The f2c translater program")
+find_program(F2C_COMMAND NAMES f2c f2c.exe REQUIRED DOC "The f2c translator program")
 # sed is required to do some automated edits of the C++ code
 find_program(SED_COMMAND NAMES sed sed.exe REQUIRED DOC "The sed stream editor program")
 # clang-format is required to regularize the resulting files

@@ -159,9 +159,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup complex16_blas_level3
+*> \ingroup trsm
 *
 *> \par Further Details:
 *  =====================
@@ -180,10 +178,9 @@
 *  =====================================================================
       SUBROUTINE ZTRSM(SIDE,UPLO,TRANSA,DIAG,M,N,ALPHA,A,LDA,B,LDB)
 *
-*  -- Reference BLAS level3 routine (version 3.7.0) --
+*  -- Reference BLAS level3 routine --
 *  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       COMPLEX*16 ALPHA
@@ -239,7 +236,8 @@
      +         (.NOT.LSAME(TRANSA,'T')) .AND.
      +         (.NOT.LSAME(TRANSA,'C'))) THEN
           INFO = 3
-      ELSE IF ((.NOT.LSAME(DIAG,'U')) .AND. (.NOT.LSAME(DIAG,'N'))) THEN
+      ELSE IF ((.NOT.LSAME(DIAG,'U')) .AND.
+     +         (.NOT.LSAME(DIAG,'N'))) THEN
           INFO = 4
       ELSE IF (M.LT.0) THEN
           INFO = 5
@@ -472,6 +470,6 @@
 *
       RETURN
 *
-*     End of ZTRSM .
+*     End of ZTRSM
 *
       END

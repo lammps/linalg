@@ -135,9 +135,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup complex16SYcomputational
+*> \ingroup hetrf
 *
 *> \par Further Details:
 *  =====================
@@ -182,10 +180,9 @@
 *  =====================================================================
       SUBROUTINE ZSYTRF( UPLO, N, A, LDA, IPIV, WORK, LWORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       CHARACTER          UPLO
@@ -235,7 +232,7 @@
 *        Determine the block size
 *
          NB = ILAENV( 1, 'ZSYTRF', UPLO, N, -1, -1, -1 )
-         LWKOPT = N*NB
+         LWKOPT = MAX( 1, N*NB )
          WORK( 1 ) = LWKOPT
       END IF
 *
@@ -252,7 +249,8 @@
          IWS = LDWORK*NB
          IF( LWORK.LT.IWS ) THEN
             NB = MAX( LWORK / LDWORK, 1 )
-            NBMIN = MAX( 2, ILAENV( 2, 'ZSYTRF', UPLO, N, -1, -1, -1 ) )
+            NBMIN = MAX( 2, ILAENV( 2, 'ZSYTRF', UPLO, N, -1, -1,
+     $                   -1 ) )
          END IF
       ELSE
          IWS = 1
@@ -281,7 +279,8 @@
 *           Factorize columns k-kb+1:k of A and use blocked code to
 *           update columns 1:k-kb
 *
-            CALL ZLASYF( UPLO, K, NB, KB, A, LDA, IPIV, WORK, N, IINFO )
+            CALL ZLASYF( UPLO, K, NB, KB, A, LDA, IPIV, WORK, N,
+     $                   IINFO )
          ELSE
 *
 *           Use unblocked code to factorize columns 1:k of A
@@ -321,13 +320,15 @@
 *           Factorize columns k:k+kb-1 of A and use blocked code to
 *           update columns k+kb:n
 *
-            CALL ZLASYF( UPLO, N-K+1, NB, KB, A( K, K ), LDA, IPIV( K ),
+            CALL ZLASYF( UPLO, N-K+1, NB, KB, A( K, K ), LDA,
+     $                   IPIV( K ),
      $                   WORK, N, IINFO )
          ELSE
 *
 *           Use unblocked code to factorize columns k:n of A
 *
-            CALL ZSYTF2( UPLO, N-K+1, A( K, K ), LDA, IPIV( K ), IINFO )
+            CALL ZSYTF2( UPLO, N-K+1, A( K, K ), LDA, IPIV( K ),
+     $                   IINFO )
             KB = N - K + 1
          END IF
 *

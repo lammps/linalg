@@ -248,18 +248,15 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup doubleOTHERauxiliary
+*> \ingroup laqr0
 *
 *  =====================================================================
       SUBROUTINE DLAQR0( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI,
      $                   ILOZ, IHIZ, Z, LDZ, WORK, LWORK, INFO )
 *
-*  -- LAPACK auxiliary routine (version 3.7.0) --
+*  -- LAPACK auxiliary routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       INTEGER            IHI, IHIZ, ILO, ILOZ, INFO, LDH, LDZ, LWORK, N
@@ -278,7 +275,7 @@
 *     .    DLAHQR because of insufficient subdiagonal scratch space.
 *     .    (This is a hard limit.) ====
       INTEGER            NTINY
-      PARAMETER          ( NTINY = 11 )
+      PARAMETER          ( NTINY = 15 )
 *
 *     ==== Exceptional deflation windows:  try to cure rare
 *     .    slow convergence by varying the size of the
@@ -316,7 +313,8 @@
       DOUBLE PRECISION   ZDUM( 1, 1 )
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DLACPY, DLAHQR, DLANV2, DLAQR3, DLAQR4, DLAQR5
+      EXTERNAL           DLACPY, DLAHQR, DLANV2, DLAQR3, DLAQR4,
+     $                   DLAQR5
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, DBLE, INT, MAX, MIN, MOD
@@ -362,22 +360,22 @@
          END IF
 *
 *        ==== NWR = recommended deflation window size.  At this
-*        .    point,  N .GT. NTINY = 11, so there is enough
+*        .    point,  N .GT. NTINY = 15, so there is enough
 *        .    subdiagonal workspace for NWR.GE.2 as required.
 *        .    (In fact, there is enough subdiagonal space for
-*        .    NWR.GE.3.) ====
+*        .    NWR.GE.4.) ====
 *
          NWR = ILAENV( 13, 'DLAQR0', JBCMPZ, N, ILO, IHI, LWORK )
          NWR = MAX( 2, NWR )
          NWR = MIN( IHI-ILO+1, ( N-1 ) / 3, NWR )
 *
 *        ==== NSR = recommended number of simultaneous shifts.
-*        .    At this point N .GT. NTINY = 11, so there is at
+*        .    At this point N .GT. NTINY = 15, so there is at
 *        .    enough subdiagonal workspace for NSR to be even
 *        .    and greater than or equal to two as required. ====
 *
          NSR = ILAENV( 15, 'DLAQR0', JBCMPZ, N, ILO, IHI, LWORK )
-         NSR = MIN( NSR, ( N+6 ) / 9, IHI-ILO )
+         NSR = MIN( NSR, ( N-3 ) / 6, IHI-ILO )
          NSR = MAX( 2, NSR-MOD( NSR, 2 ) )
 *
 *        ==== Estimate optimal workspace ====
@@ -425,7 +423,7 @@
 *        ==== NSMAX = the Largest number of simultaneous shifts
 *        .    for which there is sufficient workspace. ====
 *
-         NSMAX = MIN( ( N+6 ) / 9, 2*LWORK / 3 )
+         NSMAX = MIN( ( N-3 ) / 6, 2*LWORK / 3 )
          NSMAX = NSMAX - MOD( NSMAX, 2 )
 *
 *        ==== NDFL: an iteration count restarted at deflation. ====
@@ -519,7 +517,8 @@
 *
 *           ==== Aggressive early deflation ====
 *
-            CALL DLAQR3( WANTT, WANTZ, N, KTOP, KBOT, NW, H, LDH, ILOZ,
+            CALL DLAQR3( WANTT, WANTZ, N, KTOP, KBOT, NW, H, LDH,
+     $                   ILOZ,
      $                   IHIZ, Z, LDZ, LS, LD, WR, WI, H( KV, 1 ), LDH,
      $                   NHO, H( KV, KT ), LDH, NVE, H( KWV, 1 ), LDH,
      $                   WORK, LWORK )
@@ -563,7 +562,8 @@
                      BB = SS
                      CC = WILK2*SS
                      DD = AA
-                     CALL DLANV2( AA, BB, CC, DD, WR( I-1 ), WI( I-1 ),
+                     CALL DLANV2( AA, BB, CC, DD, WR( I-1 ),
+     $                            WI( I-1 ),
      $                            WR( I ), WI( I ), CS, SN )
    30             CONTINUE
                   IF( KS.EQ.KTOP ) THEN
@@ -576,7 +576,7 @@
 *
 *                 ==== Got NS/2 or fewer shifts? Use DLAQR4 or
 *                 .    DLAHQR on a trailing principal submatrix to
-*                 .    get more. (Since NS.LE.NSMAX.LE.(N+6)/9,
+*                 .    get more. (Since NS.LE.NSMAX.LE.(N-3)/6,
 *                 .    there is enough space below the subdiagonal
 *                 .    to fit an NS-by-NS scratch array.) ====
 *
@@ -698,7 +698,7 @@
 *              .      (NVE-by-KDU) vertical work WV arrow along
 *              .      the left-hand-edge. ====
 *
-               KDU = 3*NS - 3
+               KDU = 2*NS
                KU = N - KDU + 1
                KWH = KDU + 1
                NHO = ( N-KDU+1-4 ) - ( KDU+1 ) + 1

@@ -107,17 +107,14 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup complex16SYcomputational
+*> \ingroup hetri
 *
 *  =====================================================================
       SUBROUTINE ZSYTRI( UPLO, N, A, LDA, IPIV, WORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       CHARACTER          UPLO
@@ -224,7 +221,8 @@
                CALL ZCOPY( K-1, A( 1, K ), 1, WORK, 1 )
                CALL ZSYMV( UPLO, K-1, -ONE, A, LDA, WORK, 1, ZERO,
      $                     A( 1, K ), 1 )
-               A( K, K ) = A( K, K ) - ZDOTU( K-1, WORK, 1, A( 1, K ),
+               A( K, K ) = A( K, K ) - ZDOTU( K-1, WORK, 1, A( 1,
+     $            K ),
      $                     1 )
             END IF
             KSTEP = 1
@@ -249,10 +247,12 @@
                CALL ZCOPY( K-1, A( 1, K ), 1, WORK, 1 )
                CALL ZSYMV( UPLO, K-1, -ONE, A, LDA, WORK, 1, ZERO,
      $                     A( 1, K ), 1 )
-               A( K, K ) = A( K, K ) - ZDOTU( K-1, WORK, 1, A( 1, K ),
+               A( K, K ) = A( K, K ) - ZDOTU( K-1, WORK, 1, A( 1,
+     $            K ),
      $                     1 )
                A( K, K+1 ) = A( K, K+1 ) -
-     $                       ZDOTU( K-1, A( 1, K ), 1, A( 1, K+1 ), 1 )
+     $                       ZDOTU( K-1, A( 1, K ), 1, A( 1, K+1 ),
+     $                              1 )
                CALL ZCOPY( K-1, A( 1, K+1 ), 1, WORK, 1 )
                CALL ZSYMV( UPLO, K-1, -ONE, A, LDA, WORK, 1, ZERO,
      $                     A( 1, K+1 ), 1 )
@@ -311,9 +311,11 @@
 *
             IF( K.LT.N ) THEN
                CALL ZCOPY( N-K, A( K+1, K ), 1, WORK, 1 )
-               CALL ZSYMV( UPLO, N-K, -ONE, A( K+1, K+1 ), LDA, WORK, 1,
+               CALL ZSYMV( UPLO, N-K, -ONE, A( K+1, K+1 ), LDA, WORK,
+     $                     1,
      $                     ZERO, A( K+1, K ), 1 )
-               A( K, K ) = A( K, K ) - ZDOTU( N-K, WORK, 1, A( K+1, K ),
+               A( K, K ) = A( K, K ) - ZDOTU( N-K, WORK, 1, A( K+1,
+     $            K ),
      $                     1 )
             END IF
             KSTEP = 1
@@ -336,18 +338,23 @@
 *
             IF( K.LT.N ) THEN
                CALL ZCOPY( N-K, A( K+1, K ), 1, WORK, 1 )
-               CALL ZSYMV( UPLO, N-K, -ONE, A( K+1, K+1 ), LDA, WORK, 1,
+               CALL ZSYMV( UPLO, N-K, -ONE, A( K+1, K+1 ), LDA, WORK,
+     $                     1,
      $                     ZERO, A( K+1, K ), 1 )
-               A( K, K ) = A( K, K ) - ZDOTU( N-K, WORK, 1, A( K+1, K ),
+               A( K, K ) = A( K, K ) - ZDOTU( N-K, WORK, 1, A( K+1,
+     $            K ),
      $                     1 )
                A( K, K-1 ) = A( K, K-1 ) -
-     $                       ZDOTU( N-K, A( K+1, K ), 1, A( K+1, K-1 ),
+     $                       ZDOTU( N-K, A( K+1, K ), 1, A( K+1,
+     $                              K-1 ),
      $                       1 )
                CALL ZCOPY( N-K, A( K+1, K-1 ), 1, WORK, 1 )
-               CALL ZSYMV( UPLO, N-K, -ONE, A( K+1, K+1 ), LDA, WORK, 1,
+               CALL ZSYMV( UPLO, N-K, -ONE, A( K+1, K+1 ), LDA, WORK,
+     $                     1,
      $                     ZERO, A( K+1, K-1 ), 1 )
                A( K-1, K-1 ) = A( K-1, K-1 ) -
-     $                         ZDOTU( N-K, WORK, 1, A( K+1, K-1 ), 1 )
+     $                         ZDOTU( N-K, WORK, 1, A( K+1, K-1 ),
+     $                                1 )
             END IF
             KSTEP = 2
          END IF

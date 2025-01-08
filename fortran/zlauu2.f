@@ -95,17 +95,14 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup complex16OTHERauxiliary
+*> \ingroup lauu2
 *
 *  =====================================================================
       SUBROUTINE ZLAUU2( UPLO, N, A, LDA, INFO )
 *
-*  -- LAPACK auxiliary routine (version 3.7.0) --
+*  -- LAPACK auxiliary routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       CHARACTER          UPLO
@@ -165,12 +162,14 @@
 *        Compute the product U * U**H.
 *
          DO 10 I = 1, N
-            AII = A( I, I )
+            AII = DBLE( A( I, I ) )
             IF( I.LT.N ) THEN
-               A( I, I ) = AII*AII + DBLE( ZDOTC( N-I, A( I, I+1 ), LDA,
+               A( I, I ) = AII*AII + DBLE( ZDOTC( N-I, A( I, I+1 ),
+     $            LDA,
      $                     A( I, I+1 ), LDA ) )
                CALL ZLACGV( N-I, A( I, I+1 ), LDA )
-               CALL ZGEMV( 'No transpose', I-1, N-I, ONE, A( 1, I+1 ),
+               CALL ZGEMV( 'No transpose', I-1, N-I, ONE, A( 1,
+     $                     I+1 ),
      $                     LDA, A( I, I+1 ), LDA, DCMPLX( AII ),
      $                     A( 1, I ), 1 )
                CALL ZLACGV( N-I, A( I, I+1 ), LDA )
@@ -184,9 +183,10 @@
 *        Compute the product L**H * L.
 *
          DO 20 I = 1, N
-            AII = A( I, I )
+            AII = DBLE( A( I, I ) )
             IF( I.LT.N ) THEN
-               A( I, I ) = AII*AII + DBLE( ZDOTC( N-I, A( I+1, I ), 1,
+               A( I, I ) = AII*AII + DBLE( ZDOTC( N-I, A( I+1, I ),
+     $            1,
      $                     A( I+1, I ), 1 ) )
                CALL ZLACGV( I-1, A( I, 1 ), LDA )
                CALL ZGEMV( 'Conjugate transpose', N-I, I-1, ONE,

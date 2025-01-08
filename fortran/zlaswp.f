@@ -99,9 +99,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date June 2017
-*
-*> \ingroup complex16OTHERauxiliary
+*> \ingroup laswp
 *
 *> \par Further Details:
 *  =====================
@@ -115,10 +113,9 @@
 *  =====================================================================
       SUBROUTINE ZLASWP( N, A, LDA, K1, K2, IPIV, INCX )
 *
-*  -- LAPACK auxiliary routine (version 3.7.1) --
+*  -- LAPACK auxiliary routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     June 2017
 *
 *     .. Scalar Arguments ..
       INTEGER            INCX, K1, K2, LDA, N

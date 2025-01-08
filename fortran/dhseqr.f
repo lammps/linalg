@@ -233,9 +233,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup doubleOTHERcomputational
+*> \ingroup hseqr
 *
 *> \par Contributors:
 *  ==================
@@ -316,10 +314,9 @@
       SUBROUTINE DHSEQR( JOB, COMPZ, N, ILO, IHI, H, LDH, WR, WI, Z,
      $                   LDZ, WORK, LWORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       INTEGER            IHI, ILO, INFO, LDH, LDZ, LWORK, N
@@ -338,10 +335,10 @@
 *     .    DLAHQR because of insufficient subdiagonal scratch space.
 *     .    (This is a hard limit.) ====
       INTEGER            NTINY
-      PARAMETER          ( NTINY = 11 )
+      PARAMETER          ( NTINY = 15 )
 *
 *     ==== NL allocates some local workspace to help small matrices
-*     .    through a rare DLAHQR failure.  NL > NTINY = 11 is
+*     .    through a rare DLAHQR failure.  NL > NTINY = 15 is
 *     .    required and NL <= NMIN = ILAENV(ISPEC=12,...) is recom-
 *     .    mended.  (The default value of NMIN is 75.)  Using NL = 49
 *     .    allows up to six simultaneous shifts and a 16-by-16
@@ -364,7 +361,8 @@
       EXTERNAL           ILAENV, LSAME
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DLACPY, DLAHQR, DLAQR0, DLASET, XERBLA
+      EXTERNAL           DLACPY, DLAHQR, DLAQR0, DLASET,
+     $                   XERBLA
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          DBLE, MAX, MIN
@@ -457,13 +455,15 @@
 *        ==== DLAQR0 for big matrices; DLAHQR for small ones ====
 *
          IF( N.GT.NMIN ) THEN
-            CALL DLAQR0( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI, ILO,
+            CALL DLAQR0( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI,
+     $                   ILO,
      $                   IHI, Z, LDZ, WORK, LWORK, INFO )
          ELSE
 *
 *           ==== Small matrix ====
 *
-            CALL DLAHQR( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI, ILO,
+            CALL DLAHQR( WANTT, WANTZ, N, ILO, IHI, H, LDH, WR, WI,
+     $                   ILO,
      $                   IHI, Z, LDZ, INFO )
 *
             IF( INFO.GT.0 ) THEN
@@ -478,7 +478,8 @@
 *                 ==== Larger matrices have enough subdiagonal scratch
 *                 .    space to call DLAQR0 directly. ====
 *
-                  CALL DLAQR0( WANTT, WANTZ, N, ILO, KBOT, H, LDH, WR,
+                  CALL DLAQR0( WANTT, WANTZ, N, ILO, KBOT, H, LDH,
+     $                         WR,
      $                         WI, ILO, IHI, Z, LDZ, WORK, LWORK, INFO )
 *
                ELSE
@@ -490,9 +491,11 @@
 *
                   CALL DLACPY( 'A', N, N, H, LDH, HL, NL )
                   HL( N+1, N ) = ZERO
-                  CALL DLASET( 'A', NL, NL-N, ZERO, ZERO, HL( 1, N+1 ),
+                  CALL DLASET( 'A', NL, NL-N, ZERO, ZERO, HL( 1,
+     $                         N+1 ),
      $                         NL )
-                  CALL DLAQR0( WANTT, WANTZ, NL, ILO, KBOT, HL, NL, WR,
+                  CALL DLAQR0( WANTT, WANTZ, NL, ILO, KBOT, HL, NL,
+     $                         WR,
      $                         WI, ILO, IHI, Z, LDZ, WORKL, NL, INFO )
                   IF( WANTT .OR. INFO.NE.0 )
      $               CALL DLACPY( 'A', N, N, HL, NL, H, LDH )

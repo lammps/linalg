@@ -127,9 +127,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup doubleSYcomputational
+*> \ingroup hetf2
 *
 *> \par Further Details:
 *  =====================
@@ -194,10 +192,9 @@
 *  =====================================================================
       SUBROUTINE DSYTF2( UPLO, N, A, LDA, IPIV, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       CHARACTER          UPLO
@@ -287,7 +284,8 @@
             COLMAX = ZERO
          END IF
 *
-         IF( (MAX( ABSAKK, COLMAX ).EQ.ZERO) .OR. DISNAN(ABSAKK) ) THEN
+         IF( (MAX( ABSAKK, COLMAX ).EQ.ZERO) .OR.
+     $       DISNAN(ABSAKK) ) THEN
 *
 *           Column K is zero or underflow, or contains a NaN:
 *           set INFO and continue
@@ -457,7 +455,8 @@
             COLMAX = ZERO
          END IF
 *
-         IF( (MAX( ABSAKK, COLMAX ).EQ.ZERO) .OR. DISNAN(ABSAKK) ) THEN
+         IF( (MAX( ABSAKK, COLMAX ).EQ.ZERO) .OR.
+     $       DISNAN(ABSAKK) ) THEN
 *
 *           Column K is zero or underflow, or contains a NaN:
 *           set INFO and continue
@@ -479,7 +478,8 @@
                JMAX = K - 1 + IDAMAX( IMAX-K, A( IMAX, K ), LDA )
                ROWMAX = ABS( A( IMAX, JMAX ) )
                IF( IMAX.LT.N ) THEN
-                  JMAX = IMAX + IDAMAX( N-IMAX, A( IMAX+1, IMAX ), 1 )
+                  JMAX = IMAX + IDAMAX( N-IMAX, A( IMAX+1, IMAX ),
+     $                                  1 )
                   ROWMAX = MAX( ROWMAX, ABS( A( JMAX, IMAX ) ) )
                END IF
 *
@@ -511,7 +511,8 @@
 *              submatrix A(k:n,k:n)
 *
                IF( KP.LT.N )
-     $            CALL DSWAP( N-KP, A( KP+1, KK ), 1, A( KP+1, KP ), 1 )
+     $            CALL DSWAP( N-KP, A( KP+1, KK ), 1, A( KP+1, KP ),
+     $                        1 )
                CALL DSWAP( KP-KK-1, A( KK+1, KK ), 1, A( KP, KK+1 ),
      $                     LDA )
                T = A( KK, KK )

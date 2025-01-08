@@ -123,9 +123,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup doubleOTHERauxiliary
+*> \ingroup lahr2
 *
 *> \par Further Details:
 *  =====================
@@ -181,10 +179,9 @@
 *  =====================================================================
       SUBROUTINE DLAHR2( N, K, NB, A, LDA, TAU, T, LDT, Y, LDY )
 *
-*  -- LAPACK auxiliary routine (version 3.7.0) --
+*  -- LAPACK auxiliary routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       INTEGER            K, LDA, LDT, LDY, N, NB
@@ -226,7 +223,8 @@
 *
 *           Update I-th column of A - Y * V**T
 *
-            CALL DGEMV( 'NO TRANSPOSE', N-K, I-1, -ONE, Y(K+1,1), LDY,
+            CALL DGEMV( 'NO TRANSPOSE', N-K, I-1, -ONE, Y(K+1,1),
+     $                  LDY,
      $                  A( K+I-1, 1 ), LDA, ONE, A( K+1, I ), 1 )
 *
 *           Apply I - V * T**T * V**T to this column (call it b) from the
@@ -275,7 +273,8 @@
 *        Generate the elementary reflector H(I) to annihilate
 *        A(K+I+1:N,I)
 *
-         CALL DLARFG( N-K-I+1, A( K+I, I ), A( MIN( K+I+1, N ), I ), 1,
+         CALL DLARFG( N-K-I+1, A( K+I, I ), A( MIN( K+I+1, N ), I ),
+     $                1,
      $                TAU( I ) )
          EI = A( K+I, I )
          A( K+I, I ) = ONE

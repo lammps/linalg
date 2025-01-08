@@ -106,9 +106,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
-*
-*> \ingroup doubleGEcomputational
+*> \ingroup gehd2
 *
 *> \par Further Details:
 *  =====================
@@ -149,10 +147,9 @@
 *  =====================================================================
       SUBROUTINE DGEHD2( N, ILO, IHI, A, LDA, TAU, WORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
 *
 *     .. Scalar Arguments ..
       INTEGER            IHI, ILO, INFO, LDA, N
@@ -169,10 +166,9 @@
 *     ..
 *     .. Local Scalars ..
       INTEGER            I
-      DOUBLE PRECISION   AII
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           DLARF, DLARFG, XERBLA
+      EXTERNAL           DLARF1F, DLARFG, XERBLA
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN
@@ -202,20 +198,17 @@
 *
          CALL DLARFG( IHI-I, A( I+1, I ), A( MIN( I+2, N ), I ), 1,
      $                TAU( I ) )
-         AII = A( I+1, I )
-         A( I+1, I ) = ONE
 *
 *        Apply H(i) to A(1:ihi,i+1:ihi) from the right
 *
-         CALL DLARF( 'Right', IHI, IHI-I, A( I+1, I ), 1, TAU( I ),
+         CALL DLARF1F( 'Right', IHI, IHI-I, A( I+1, I ), 1, TAU( I ),
      $               A( 1, I+1 ), LDA, WORK )
 *
 *        Apply H(i) to A(i+1:ihi,i+1:n) from the left
 *
-         CALL DLARF( 'Left', IHI-I, N-I, A( I+1, I ), 1, TAU( I ),
+         CALL DLARF1F( 'Left', IHI-I, N-I, A( I+1, I ), 1, TAU( I ),
      $               A( I+1, I+1 ), LDA, WORK )
 *
-         A( I+1, I ) = AII
    10 CONTINUE
 *
       RETURN

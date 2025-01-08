@@ -319,14 +319,14 @@
 *
 *        T_{1,2} = T_{1,2}*V_{2,2}
 *
-         CALL ZTRMM('Right', 'Lower', 'No transpose', 'Unit', L,
+         CALL ZTRMM('R', 'L', 'N', 'U', L,
      $               K-L, ONE, V(L+1, L+1), LDV, T(1, L+1), LDT)
 
 *
 *        T_{1,2} = V_{3,1}'*V_{3,2} + T_{1,2}
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL ZGEMM('Conjugate', 'No transpose', L, K-L, N-K, ONE, 
+         CALL ZGEMM('C', 'N', L, K-L, N-K, ONE, 
      $               V(K+1, 1), LDV, V(K+1, L+1), LDV, ONE, 
      $               T(1, L+1), LDT)
 *
@@ -336,12 +336,12 @@
 *
 *        T_{1,2} = -T_{1,1}*T_{1,2}
 *
-         CALL ZTRMM('Left', 'Upper', 'No transpose', 'Non-unit', L,
+         CALL ZTRMM('L', 'U', 'N', 'N', L,
      $               K-L, NEG_ONE, T, LDT, T(1, L+1), LDT)
 *
 *        T_{1,2} = T_{1,2}*T_{2,2}
 *
-         CALL ZTRMM('Right', 'Upper', 'No transpose', 'Non-unit', L, 
+         CALL ZTRMM('R', 'U', 'N', 'N', L, 
      $               K-L, ONE, T(L+1, L+1), LDT, T(1, L+1), LDT)
 
       ELSE IF(LQ) THEN
@@ -407,18 +407,18 @@
 *        Compute T_{1,2}
 *        T_{1,2} = V_{1,2}
 *
-         CALL ZLACPY('All', L, K-L, V(1, L+1), LDV, T(1, L+1), LDT)
+         CALL ZLACPY('A', L, K-L, V(1, L+1), LDV, T(1, L+1), LDT)
 *
 *        T_{1,2} = T_{1,2}*V_{2,2}'
 *
-         CALL ZTRMM('Right', 'Upper', 'Conjugate', 'Unit', L, K-L,
+         CALL ZTRMM('R', 'U', 'C', 'U', L, K-L,
      $               ONE, V(L+1, L+1), LDV, T(1, L+1), LDT)
 
 *
 *        T_{1,2} = V_{1,3}*V_{2,3}' + T_{1,2}
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL ZGEMM('No transpose', 'Conjugate', L, K-L, N-K, ONE,
+         CALL ZGEMM('N', 'C', L, K-L, N-K, ONE,
      $               V(1, K+1), LDV, V(L+1, K+1), LDV, ONE,
      $               T(1, L+1), LDT)
 *
@@ -428,13 +428,13 @@
 *
 *        T_{1,2} = -T_{1,1}*T_{1,2}
 *
-         CALL ZTRMM('Left', 'Upper', 'No transpose', 'Non-unit', L,
+         CALL ZTRMM('L', 'U', 'N', 'N', L,
      $               K-L, NEG_ONE, T, LDT, T(1, L+1), LDT)
 
 *
 *        T_{1,2} = T_{1,2}*T_{2,2}
 *
-         CALL ZTRMM('Right', 'Upper', 'No transpose', 'Non-unit', L,
+         CALL ZTRMM('R', 'U', 'N', 'N', L,
      $               K-L, ONE, T(L+1, L+1), LDT, T(1, L+1), LDT)
       ELSE IF(QL) THEN
 *
@@ -506,14 +506,14 @@
 *
 *        T_{2,1} = T_{2,1}*V_{2,1}
 *
-         CALL ZTRMM('Right', 'Upper', 'No transpose', 'Unit', L,
+         CALL ZTRMM('R', 'U', 'N', 'U', L,
      $               K-L, ONE, V(N-K+1, 1), LDV, T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = V_{2,2}'*V_{2,1} + T_{2,1}
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL ZGEMM('Conjugate', 'No transpose', L, K-L, N-K, ONE,
+         CALL ZGEMM('C', 'N', L, K-L, N-K, ONE,
      $               V(1, K-L+1), LDV, V, LDV, ONE, T(K-L+1, 1),
      $               LDT)
 *
@@ -523,13 +523,13 @@
 *
 *        T_{2,1} = -T_{2,2}*T_{2,1}
 *
-         CALL ZTRMM('Left', 'Lower', 'No transpose', 'Non-unit', L,
+         CALL ZTRMM('L', 'L', 'N', 'N', L,
      $               K-L, NEG_ONE, T(K-L+1, K-L+1), LDT,
      $               T(K-L+1, 1), LDT)
 *
 *        T_{2,1} = T_{2,1}*T_{1,1}
 *
-         CALL ZTRMM('Right', 'Lower', 'No transpose', 'Non-unit', L,
+         CALL ZTRMM('R', 'L', 'N', 'N', L,
      $               K-L, ONE, T, LDT, T(K-L+1, 1), LDT)
       ELSE
 *
@@ -595,20 +595,20 @@
 *        Compute T_{2,1}
 *        T_{2,1} = V_{2,2}
 *
-         CALL ZLACPY('All', L, K-L, V(K-L+1, N-K+1), LDV,
+         CALL ZLACPY('A', L, K-L, V(K-L+1, N-K+1), LDV,
      $               T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = T_{2,1}*V_{1,2}'
 *
-         CALL ZTRMM('Right', 'Lower', 'Conjugate', 'Unit', L, K-L,
+         CALL ZTRMM('R', 'L', 'C', 'U', L, K-L,
      $               ONE, V(1, N-K+1), LDV, T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = V_{2,1}*V_{1,1}' + T_{2,1} 
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL ZGEMM('No transpose', 'Conjugate', L, K-L, N-K, ONE, 
+         CALL ZGEMM('N', 'C', L, K-L, N-K, ONE, 
      $               V(K-L+1, 1), LDV, V, LDV, ONE, T(K-L+1, 1),
      $               LDT)
 
@@ -619,14 +619,14 @@
 *
 *        T_{2,1} = -T_{2,2}*T_{2,1}
 *
-         CALL ZTRMM('Left', 'Lower', 'No tranpose', 'Non-unit', L,
+         CALL ZTRMM('L', 'L', 'No tranpose', 'N', L,
      $               K-L, NEG_ONE, T(K-L+1, K-L+1), LDT, 
      $               T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = T_{2,1}*T_{1,1}
 *
-         CALL ZTRMM('Right', 'Lower', 'No tranpose', 'Non-unit', L,
+         CALL ZTRMM('R', 'L', 'No tranpose', 'N', L,
      $               K-L, ONE, T, LDT, T(K-L+1, 1), LDT)
       END IF
       END SUBROUTINE

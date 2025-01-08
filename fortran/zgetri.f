@@ -178,7 +178,7 @@
 *     Form inv(U).  If INFO > 0 from ZTRTRI, then U is singular,
 *     and the inverse is not computed.
 *
-      CALL ZTRTRI( 'Upper', 'Non-unit', N, A, LDA, INFO )
+      CALL ZTRTRI( 'U', 'N', N, A, LDA, INFO )
       IF( INFO.GT.0 )
      $   RETURN
 *
@@ -213,7 +213,7 @@
 *           Compute current column of inv(A).
 *
             IF( J.LT.N )
-     $         CALL ZGEMV( 'No transpose', N, N-J, -ONE, A( 1, J+1 ),
+     $         CALL ZGEMV( 'N', N, N-J, -ONE, A( 1, J+1 ),
      $                     LDA, WORK( J+1 ), 1, ONE, A( 1, J ), 1 )
    20    CONTINUE
       ELSE
@@ -237,10 +237,10 @@
 *           Compute current block column of inv(A).
 *
             IF( J+JB.LE.N )
-     $         CALL ZGEMM( 'No transpose', 'No transpose', N, JB,
+     $         CALL ZGEMM( 'N', 'N', N, JB,
      $                     N-J-JB+1, -ONE, A( 1, J+JB ), LDA,
      $                     WORK( J+JB ), LDWORK, ONE, A( 1, J ), LDA )
-            CALL ZTRSM( 'Right', 'Lower', 'No transpose', 'Unit', N,
+            CALL ZTRSM( 'R', 'L', 'N', 'U', N,
      $                  JB,
      $                  ONE, WORK( J ), LDWORK, A( 1, J ), LDA )
    50    CONTINUE

@@ -331,7 +331,7 @@
          END IF
 *
          IF( ICOMPZ.EQ.2 ) THEN
-            CALL DLASET( 'Full', N, N, ZERO, ONE, Z, LDZ )
+            CALL DLASET( 'F', N, N, ZERO, ONE, Z, LDZ )
          END IF
 *
 *        Scale.

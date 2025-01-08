@@ -254,13 +254,13 @@
 *              Form the triangular factor of the block reflector
 *              H = H(i) H(i+1) . . . H(i+ib-1)
 *
-               CALL ZLARFT( 'Forward', 'Columnwise', M-I+1, IB,
+               CALL ZLARFT( 'F', 'C', M-I+1, IB,
      $                      A( I, I ), LDA, TAU( I ), WORK, LDWORK )
 *
 *              Apply H to A(i:m,i+ib:n) from the left
 *
-               CALL ZLARFB( 'Left', 'No transpose', 'Forward',
-     $                      'Columnwise', M-I+1, N-I-IB+1, IB,
+               CALL ZLARFB( 'L', 'N', 'F',
+     $                      'C', M-I+1, N-I-IB+1, IB,
      $                      A( I, I ), LDA, WORK, LDWORK, A( I, I+IB ),
      $                      LDA, WORK( IB+1 ), LDWORK )
             END IF

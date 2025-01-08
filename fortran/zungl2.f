@@ -182,7 +182,7 @@
          IF( I.LT.N ) THEN
             CALL ZLACGV( N-I, A( I, I+1 ), LDA )
             IF( I.LT.M ) THEN
-               CALL ZLARF1F( 'Right', M-I, N-I+1, A( I, I ), LDA,
+               CALL ZLARF1F( 'R', M-I, N-I+1, A( I, I ), LDA,
      $                       CONJG( TAU( I ) ), A( I+1, I ), LDA,
      $                       WORK )
             END IF

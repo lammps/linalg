@@ -201,7 +201,7 @@
 *
 *           Compute elements 1:j-1 of j-th column.
 *
-            CALL ZTPMV( 'Upper', 'No transpose', DIAG, J-1, AP,
+            CALL ZTPMV( 'U', 'N', DIAG, J-1, AP,
      $                  AP( JC ), 1 )
             CALL ZSCAL( J-1, AJJ, AP( JC ), 1 )
             JC = JC + J
@@ -223,7 +223,7 @@
 *
 *              Compute elements j+1:n of j-th column.
 *
-               CALL ZTPMV( 'Lower', 'No transpose', DIAG, N-J,
+               CALL ZTPMV( 'L', 'N', DIAG, N-J,
      $                     AP( JCLAST ), AP( JC+1 ), 1 )
                CALL ZSCAL( N-J, AJJ, AP( JC+1 ), 1 )
             END IF

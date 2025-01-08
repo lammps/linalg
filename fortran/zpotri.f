@@ -142,7 +142,7 @@
 *
 *     Invert the triangular Cholesky factor U or L.
 *
-      CALL ZTRTRI( UPLO, 'Non-unit', N, A, LDA, INFO )
+      CALL ZTRTRI( UPLO, 'N', N, A, LDA, INFO )
       IF( INFO.GT.0 )
      $   RETURN
 *

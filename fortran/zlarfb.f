@@ -265,14 +265,14 @@
 *
 *              W := W * V1
 *
-               CALL ZTRMM( 'Right', 'Lower', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'L', 'N', 'U',
      $                     N,
      $                     K, ONE, V, LDV, WORK, LDWORK )
                IF( M.GT.K ) THEN
 *
 *                 W := W + C2**H * V2
 *
-                  CALL ZGEMM( 'Conjugate transpose', 'No transpose',
+                  CALL ZGEMM( 'C', 'N',
      $                        N,
      $                        K, M-K, ONE, C( K+1, 1 ), LDC,
      $                        V( K+1, 1 ), LDV, ONE, WORK, LDWORK )
@@ -280,7 +280,7 @@
 *
 *              W := W * T**H  or  W * T
 *
-               CALL ZTRMM( 'Right', 'Upper', TRANST, 'Non-unit', N,
+               CALL ZTRMM( 'R', 'U', TRANST, 'N', N,
      $                     K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
@@ -290,15 +290,15 @@
 *
 *                 C2 := C2 - V2 * W**H
 *
-                  CALL ZGEMM( 'No transpose', 'Conjugate transpose',
+                  CALL ZGEMM( 'N', 'C',
      $                        M-K, N, K, -ONE, V( K+1, 1 ), LDV, WORK,
      $                        LDWORK, ONE, C( K+1, 1 ), LDC )
                END IF
 *
 *              W := W * V1**H
 *
-               CALL ZTRMM( 'Right', 'Lower', 'Conjugate transpose',
-     $                     'Unit', N, K, ONE, V, LDV, WORK, LDWORK )
+               CALL ZTRMM( 'R', 'L', 'C',
+     $                     'U', N, K, ONE, V, LDV, WORK, LDWORK )
 *
 *              C1 := C1 - W**H
 *
@@ -322,14 +322,14 @@
 *
 *              W := W * V1
 *
-               CALL ZTRMM( 'Right', 'Lower', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'L', 'N', 'U',
      $                     M,
      $                     K, ONE, V, LDV, WORK, LDWORK )
                IF( N.GT.K ) THEN
 *
 *                 W := W + C2 * V2
 *
-                  CALL ZGEMM( 'No transpose', 'No transpose', M, K,
+                  CALL ZGEMM( 'N', 'N', M, K,
      $                        N-K,
      $                        ONE, C( 1, K+1 ), LDC, V( K+1, 1 ), LDV,
      $                        ONE, WORK, LDWORK )
@@ -337,7 +337,7 @@
 *
 *              W := W * T  or  W * T**H
 *
-               CALL ZTRMM( 'Right', 'Upper', TRANS, 'Non-unit', M, K,
+               CALL ZTRMM( 'R', 'U', TRANS, 'N', M, K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
 *              C := C - W * V**H
@@ -346,7 +346,7 @@
 *
 *                 C2 := C2 - W * V2**H
 *
-                  CALL ZGEMM( 'No transpose', 'Conjugate transpose',
+                  CALL ZGEMM( 'N', 'C',
      $                        M,
      $                        N-K, K, -ONE, WORK, LDWORK, V( K+1, 1 ),
      $                        LDV, ONE, C( 1, K+1 ), LDC )
@@ -354,8 +354,8 @@
 *
 *              W := W * V1**H
 *
-               CALL ZTRMM( 'Right', 'Lower', 'Conjugate transpose',
-     $                     'Unit', M, K, ONE, V, LDV, WORK, LDWORK )
+               CALL ZTRMM( 'R', 'L', 'C',
+     $                     'U', M, K, ONE, V, LDV, WORK, LDWORK )
 *
 *              C1 := C1 - W
 *
@@ -389,14 +389,14 @@
 *
 *              W := W * V2
 *
-               CALL ZTRMM( 'Right', 'Upper', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'U', 'N', 'U',
      $                     N,
      $                     K, ONE, V( M-K+1, 1 ), LDV, WORK, LDWORK )
                IF( M.GT.K ) THEN
 *
 *                 W := W + C1**H * V1
 *
-                  CALL ZGEMM( 'Conjugate transpose', 'No transpose',
+                  CALL ZGEMM( 'C', 'N',
      $                        N,
      $                        K, M-K, ONE, C, LDC, V, LDV, ONE, WORK,
      $                        LDWORK )
@@ -404,7 +404,7 @@
 *
 *              W := W * T**H  or  W * T
 *
-               CALL ZTRMM( 'Right', 'Lower', TRANST, 'Non-unit', N,
+               CALL ZTRMM( 'R', 'L', TRANST, 'N', N,
      $                     K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
@@ -414,15 +414,15 @@
 *
 *                 C1 := C1 - V1 * W**H
 *
-                  CALL ZGEMM( 'No transpose', 'Conjugate transpose',
+                  CALL ZGEMM( 'N', 'C',
      $                        M-K, N, K, -ONE, V, LDV, WORK, LDWORK,
      $                        ONE, C, LDC )
                END IF
 *
 *              W := W * V2**H
 *
-               CALL ZTRMM( 'Right', 'Upper', 'Conjugate transpose',
-     $                     'Unit', N, K, ONE, V( M-K+1, 1 ), LDV, WORK,
+               CALL ZTRMM( 'R', 'U', 'C',
+     $                     'U', N, K, ONE, V( M-K+1, 1 ), LDV, WORK,
      $                     LDWORK )
 *
 *              C2 := C2 - W**H
@@ -448,21 +448,21 @@
 *
 *              W := W * V2
 *
-               CALL ZTRMM( 'Right', 'Upper', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'U', 'N', 'U',
      $                     M,
      $                     K, ONE, V( N-K+1, 1 ), LDV, WORK, LDWORK )
                IF( N.GT.K ) THEN
 *
 *                 W := W + C1 * V1
 *
-                  CALL ZGEMM( 'No transpose', 'No transpose', M, K,
+                  CALL ZGEMM( 'N', 'N', M, K,
      $                        N-K,
      $                        ONE, C, LDC, V, LDV, ONE, WORK, LDWORK )
                END IF
 *
 *              W := W * T  or  W * T**H
 *
-               CALL ZTRMM( 'Right', 'Lower', TRANS, 'Non-unit', M, K,
+               CALL ZTRMM( 'R', 'L', TRANS, 'N', M, K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
 *              C := C - W * V**H
@@ -471,7 +471,7 @@
 *
 *                 C1 := C1 - W * V1**H
 *
-                  CALL ZGEMM( 'No transpose', 'Conjugate transpose',
+                  CALL ZGEMM( 'N', 'C',
      $                        M,
      $                        N-K, K, -ONE, WORK, LDWORK, V, LDV, ONE,
      $                        C, LDC )
@@ -479,8 +479,8 @@
 *
 *              W := W * V2**H
 *
-               CALL ZTRMM( 'Right', 'Upper', 'Conjugate transpose',
-     $                     'Unit', M, K, ONE, V( N-K+1, 1 ), LDV, WORK,
+               CALL ZTRMM( 'R', 'U', 'C',
+     $                     'U', M, K, ONE, V( N-K+1, 1 ), LDV, WORK,
      $                     LDWORK )
 *
 *              C2 := C2 - W
@@ -516,21 +516,21 @@
 *
 *              W := W * V1**H
 *
-               CALL ZTRMM( 'Right', 'Upper', 'Conjugate transpose',
-     $                     'Unit', N, K, ONE, V, LDV, WORK, LDWORK )
+               CALL ZTRMM( 'R', 'U', 'C',
+     $                     'U', N, K, ONE, V, LDV, WORK, LDWORK )
                IF( M.GT.K ) THEN
 *
 *                 W := W + C2**H * V2**H
 *
-                  CALL ZGEMM( 'Conjugate transpose',
-     $                        'Conjugate transpose', N, K, M-K, ONE,
+                  CALL ZGEMM( 'C',
+     $                        'C', N, K, M-K, ONE,
      $                        C( K+1, 1 ), LDC, V( 1, K+1 ), LDV, ONE,
      $                        WORK, LDWORK )
                END IF
 *
 *              W := W * T**H  or  W * T
 *
-               CALL ZTRMM( 'Right', 'Upper', TRANST, 'Non-unit', N,
+               CALL ZTRMM( 'R', 'U', TRANST, 'N', N,
      $                     K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
@@ -540,15 +540,15 @@
 *
 *                 C2 := C2 - V2**H * W**H
 *
-                  CALL ZGEMM( 'Conjugate transpose',
-     $                        'Conjugate transpose', M-K, N, K, -ONE,
+                  CALL ZGEMM( 'C',
+     $                        'C', M-K, N, K, -ONE,
      $                        V( 1, K+1 ), LDV, WORK, LDWORK, ONE,
      $                        C( K+1, 1 ), LDC )
                END IF
 *
 *              W := W * V1
 *
-               CALL ZTRMM( 'Right', 'Upper', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'U', 'N', 'U',
      $                     N,
      $                     K, ONE, V, LDV, WORK, LDWORK )
 *
@@ -574,13 +574,13 @@
 *
 *              W := W * V1**H
 *
-               CALL ZTRMM( 'Right', 'Upper', 'Conjugate transpose',
-     $                     'Unit', M, K, ONE, V, LDV, WORK, LDWORK )
+               CALL ZTRMM( 'R', 'U', 'C',
+     $                     'U', M, K, ONE, V, LDV, WORK, LDWORK )
                IF( N.GT.K ) THEN
 *
 *                 W := W + C2 * V2**H
 *
-                  CALL ZGEMM( 'No transpose', 'Conjugate transpose',
+                  CALL ZGEMM( 'N', 'C',
      $                        M,
      $                        K, N-K, ONE, C( 1, K+1 ), LDC,
      $                        V( 1, K+1 ), LDV, ONE, WORK, LDWORK )
@@ -588,7 +588,7 @@
 *
 *              W := W * T  or  W * T**H
 *
-               CALL ZTRMM( 'Right', 'Upper', TRANS, 'Non-unit', M, K,
+               CALL ZTRMM( 'R', 'U', TRANS, 'N', M, K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
 *              C := C - W * V
@@ -597,7 +597,7 @@
 *
 *                 C2 := C2 - W * V2
 *
-                  CALL ZGEMM( 'No transpose', 'No transpose', M, N-K,
+                  CALL ZGEMM( 'N', 'N', M, N-K,
      $                        K,
      $                        -ONE, WORK, LDWORK, V( 1, K+1 ), LDV, ONE,
      $                        C( 1, K+1 ), LDC )
@@ -605,7 +605,7 @@
 *
 *              W := W * V1
 *
-               CALL ZTRMM( 'Right', 'Upper', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'U', 'N', 'U',
      $                     M,
      $                     K, ONE, V, LDV, WORK, LDWORK )
 *
@@ -641,21 +641,21 @@
 *
 *              W := W * V2**H
 *
-               CALL ZTRMM( 'Right', 'Lower', 'Conjugate transpose',
-     $                     'Unit', N, K, ONE, V( 1, M-K+1 ), LDV, WORK,
+               CALL ZTRMM( 'R', 'L', 'C',
+     $                     'U', N, K, ONE, V( 1, M-K+1 ), LDV, WORK,
      $                     LDWORK )
                IF( M.GT.K ) THEN
 *
 *                 W := W + C1**H * V1**H
 *
-                  CALL ZGEMM( 'Conjugate transpose',
-     $                        'Conjugate transpose', N, K, M-K, ONE, C,
+                  CALL ZGEMM( 'C',
+     $                        'C', N, K, M-K, ONE, C,
      $                        LDC, V, LDV, ONE, WORK, LDWORK )
                END IF
 *
 *              W := W * T**H  or  W * T
 *
-               CALL ZTRMM( 'Right', 'Lower', TRANST, 'Non-unit', N,
+               CALL ZTRMM( 'R', 'L', TRANST, 'N', N,
      $                     K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
@@ -665,14 +665,14 @@
 *
 *                 C1 := C1 - V1**H * W**H
 *
-                  CALL ZGEMM( 'Conjugate transpose',
-     $                        'Conjugate transpose', M-K, N, K, -ONE, V,
+                  CALL ZGEMM( 'C',
+     $                        'C', M-K, N, K, -ONE, V,
      $                        LDV, WORK, LDWORK, ONE, C, LDC )
                END IF
 *
 *              W := W * V2
 *
-               CALL ZTRMM( 'Right', 'Lower', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'L', 'N', 'U',
      $                     N,
      $                     K, ONE, V( 1, M-K+1 ), LDV, WORK, LDWORK )
 *
@@ -699,14 +699,14 @@
 *
 *              W := W * V2**H
 *
-               CALL ZTRMM( 'Right', 'Lower', 'Conjugate transpose',
-     $                     'Unit', M, K, ONE, V( 1, N-K+1 ), LDV, WORK,
+               CALL ZTRMM( 'R', 'L', 'C',
+     $                     'U', M, K, ONE, V( 1, N-K+1 ), LDV, WORK,
      $                     LDWORK )
                IF( N.GT.K ) THEN
 *
 *                 W := W + C1 * V1**H
 *
-                  CALL ZGEMM( 'No transpose', 'Conjugate transpose',
+                  CALL ZGEMM( 'N', 'C',
      $                        M,
      $                        K, N-K, ONE, C, LDC, V, LDV, ONE, WORK,
      $                        LDWORK )
@@ -714,7 +714,7 @@
 *
 *              W := W * T  or  W * T**H
 *
-               CALL ZTRMM( 'Right', 'Lower', TRANS, 'Non-unit', M, K,
+               CALL ZTRMM( 'R', 'L', TRANS, 'N', M, K,
      $                     ONE, T, LDT, WORK, LDWORK )
 *
 *              C := C - W * V
@@ -723,14 +723,14 @@
 *
 *                 C1 := C1 - W * V1
 *
-                  CALL ZGEMM( 'No transpose', 'No transpose', M, N-K,
+                  CALL ZGEMM( 'N', 'N', M, N-K,
      $                        K,
      $                        -ONE, WORK, LDWORK, V, LDV, ONE, C, LDC )
                END IF
 *
 *              W := W * V2
 *
-               CALL ZTRMM( 'Right', 'Lower', 'No transpose', 'Unit',
+               CALL ZTRMM( 'R', 'L', 'N', 'U',
      $                     M,
      $                     K, ONE, V( 1, N-K+1 ), LDV, WORK, LDWORK )
 *

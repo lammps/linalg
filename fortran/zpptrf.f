@@ -184,8 +184,8 @@
 *           Compute elements 1:J-1 of column J.
 *
             IF( J.GT.1 )
-     $         CALL ZTPSV( 'Upper', 'Conjugate transpose',
-     $                     'Non-unit',
+     $         CALL ZTPSV( 'U', 'C',
+     $                     'N',
      $                     J-1, AP, AP( JC ), 1 )
 *
 *           Compute U(J,J) and test for non-positive-definiteness.
@@ -220,7 +220,7 @@
 *
             IF( J.LT.N ) THEN
                CALL ZDSCAL( N-J, ONE / AJJ, AP( JJ+1 ), 1 )
-               CALL ZHPR( 'Lower', N-J, -ONE, AP( JJ+1 ), 1,
+               CALL ZHPR( 'L', N-J, -ONE, AP( JJ+1 ), 1,
      $                    AP( JJ+N-J+1 ) )
                JJ = JJ + N - J + 1
             END IF

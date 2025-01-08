@@ -221,7 +221,7 @@
 *
 *     Solve A * x = b  or  A**T * x = b.
 *
-      CALL DTRSM( 'Left', UPLO, TRANS, DIAG, N, NRHS, ONE, A, LDA, B,
+      CALL DTRSM( 'L', UPLO, TRANS, DIAG, N, NRHS, ONE, A, LDA, B,
      $            LDB )
 *
       RETURN

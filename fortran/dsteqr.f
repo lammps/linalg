@@ -222,7 +222,7 @@
 *     matrix.
 *
       IF( ICOMPZ.EQ.2 )
-     $   CALL DLASET( 'Full', N, N, ZERO, ONE, Z, LDZ )
+     $   CALL DLASET( 'F', N, N, ZERO, ONE, Z, LDZ )
 *
       NMAXIT = N*MAXIT
       JTOT = 0

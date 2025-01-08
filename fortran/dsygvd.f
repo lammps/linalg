@@ -345,7 +345,7 @@
                TRANS = 'T'
             END IF
 *
-            CALL DTRSM( 'Left', UPLO, TRANS, 'Non-unit', N, N, ONE,
+            CALL DTRSM( 'L', UPLO, TRANS, 'N', N, N, ONE,
      $                  B, LDB, A, LDA )
 *
          ELSE IF( ITYPE.EQ.3 ) THEN
@@ -359,7 +359,7 @@
                TRANS = 'N'
             END IF
 *
-            CALL DTRMM( 'Left', UPLO, TRANS, 'Non-unit', N, N, ONE,
+            CALL DTRMM( 'L', UPLO, TRANS, 'N', N, N, ONE,
      $                  B, LDB, A, LDA )
          END IF
       END IF

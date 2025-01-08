@@ -354,7 +354,7 @@
 *        If COMPZ = 'I', we simply call DSTEDC instead.
 *
          IF( ICOMPZ.EQ.2 ) THEN
-            CALL DLASET( 'Full', N, N, ZERO, ONE, RWORK, N )
+            CALL DLASET( 'F', N, N, ZERO, ONE, RWORK, N )
             LL = N*N + 1
             CALL DSTEDC( 'I', N, D, E, RWORK, N,
      $                   RWORK( LL ), LRWORK-LL+1, IWORK, LIWORK, INFO )

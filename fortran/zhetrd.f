@@ -318,7 +318,7 @@
 *           Update the unreduced submatrix A(1:i-1,1:i-1), using an
 *           update of the form:  A := A - V*W**H - W*V**H
 *
-            CALL ZHER2K( UPLO, 'No transpose', I-1, NB, -CONE,
+            CALL ZHER2K( UPLO, 'N', I-1, NB, -CONE,
      $                   A( 1, I ), LDA, WORK, LDWORK, ONE, A, LDA )
 *
 *           Copy superdiagonal elements back into A, and diagonal
@@ -349,7 +349,7 @@
 *           Update the unreduced submatrix A(i+nb:n,i+nb:n), using
 *           an update of the form:  A := A - V*W**H - W*V**H
 *
-            CALL ZHER2K( UPLO, 'No transpose', N-I-NB+1, NB, -CONE,
+            CALL ZHER2K( UPLO, 'N', N-I-NB+1, NB, -CONE,
      $                   A( I+NB, I ), LDA, WORK( NB+1 ), LDWORK, ONE,
      $                   A( I+NB, I+NB ), LDA )
 *

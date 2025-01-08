@@ -246,7 +246,7 @@
 *           Apply H(i) to A(i:m,i+1:n) from the left
 *
             IF( I.LT.N )
-     $         CALL DLARF1F( 'Left', M-I+1, N-I, A( I, I ), 1,
+     $         CALL DLARF1F( 'L', M-I+1, N-I, A( I, I ), 1,
      $                     TAUQ( I ),
      $                     A( I, I+1 ), LDA, WORK )
 *
@@ -261,7 +261,7 @@
 *
 *              Apply G(i) to A(i+1:m,i+1:n) from the right
 *
-               CALL DLARF1F( 'Right', M-I, N-I, A( I, I+1 ), LDA,
+               CALL DLARF1F( 'R', M-I, N-I, A( I, I+1 ), LDA,
      $                     TAUP( I ), A( I+1, I+1 ), LDA, WORK )
             ELSE
                TAUP( I ) = ZERO
@@ -283,7 +283,7 @@
 *           Apply G(i) to A(i+1:m,i:n) from the right
 *
             IF( I.LT.M )
-     $         CALL DLARF1F( 'Right', M-I, N-I+1, A( I, I ), LDA,
+     $         CALL DLARF1F( 'R', M-I, N-I+1, A( I, I ), LDA,
      $                     TAUP( I ), A( I+1, I ), LDA, WORK )
 *
             IF( I.LT.M ) THEN
@@ -298,7 +298,7 @@
 *
 *              Apply H(i) to A(i+1:m,i+1:n) from the left
 *
-               CALL DLARF1F( 'Left', M-I, N-I, A( I+1, I ), 1,
+               CALL DLARF1F( 'L', M-I, N-I, A( I+1, I ), 1,
      $                     TAUQ( I ),
      $                     A( I+1, I+1 ), LDA, WORK )
             ELSE

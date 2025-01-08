@@ -148,7 +148,7 @@
 *
 *     Invert the triangular Cholesky factor U or L.
 *
-      CALL ZTPTRI( UPLO, 'Non-unit', N, AP, INFO )
+      CALL ZTPTRI( UPLO, 'N', N, AP, INFO )
       IF( INFO.GT.0 )
      $   RETURN
       IF( UPPER ) THEN
@@ -160,7 +160,7 @@
             JC = JJ + 1
             JJ = JJ + J
             IF( J.GT.1 )
-     $         CALL ZHPR( 'Upper', J-1, ONE, AP( JC ), 1, AP )
+     $         CALL ZHPR( 'U', J-1, ONE, AP( JC ), 1, AP )
             AJJ = DBLE( AP( JJ ) )
             CALL ZDSCAL( J, AJJ, AP( JC ), 1 )
    10    CONTINUE
@@ -175,8 +175,8 @@
             AP( JJ ) = DBLE( ZDOTC( N-J+1, AP( JJ ), 1, AP( JJ ),
      $          1 ) )
             IF( J.LT.N )
-     $         CALL ZTPMV( 'Lower', 'Conjugate transpose',
-     $                     'Non-unit',
+     $         CALL ZTPMV( 'L', 'C',
+     $                     'N',
      $                     N-J, AP( JJN ), AP( JJ+1 ), 1 )
             JJ = JJN
    20    CONTINUE

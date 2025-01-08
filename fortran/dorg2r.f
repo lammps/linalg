@@ -176,7 +176,7 @@
 *        Apply H(i) to A(i:m,i:n) from the left
 *
          IF( I.LT.N ) THEN
-            CALL DLARF1F( 'Left', M-I+1, N-I, A( I, I ), 1, TAU( I ),
+            CALL DLARF1F( 'L', M-I+1, N-I, A( I, I ), 1, TAU( I ),
      $                  A( I, I+1 ), LDA, WORK )
          END IF
          IF( I.LT.M )

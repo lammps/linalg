@@ -183,7 +183,7 @@
 *
 *           Apply H(i) to A(i:m,i+1:n) from the left
 *
-            CALL DLARF1F( 'Left', M-I+1, N-I, A( I, I ), 1, TAU( I ),
+            CALL DLARF1F( 'L', M-I+1, N-I, A( I, I ), 1, TAU( I ),
      $                  A( I, I+1 ), LDA, WORK )
          END IF
    10 CONTINUE

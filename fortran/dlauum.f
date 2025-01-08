@@ -175,15 +175,15 @@
 *
             DO 10 I = 1, N, NB
                IB = MIN( NB, N-I+1 )
-               CALL DTRMM( 'Right', 'Upper', 'Transpose', 'Non-unit',
+               CALL DTRMM( 'R', 'U', 'T', 'N',
      $                     I-1, IB, ONE, A( I, I ), LDA, A( 1, I ),
      $                     LDA )
-               CALL DLAUU2( 'Upper', IB, A( I, I ), LDA, INFO )
+               CALL DLAUU2( 'U', IB, A( I, I ), LDA, INFO )
                IF( I+IB.LE.N ) THEN
-                  CALL DGEMM( 'No transpose', 'Transpose', I-1, IB,
+                  CALL DGEMM( 'N', 'T', I-1, IB,
      $                        N-I-IB+1, ONE, A( 1, I+IB ), LDA,
      $                        A( I, I+IB ), LDA, ONE, A( 1, I ), LDA )
-                  CALL DSYRK( 'Upper', 'No transpose', IB, N-I-IB+1,
+                  CALL DSYRK( 'U', 'N', IB, N-I-IB+1,
      $                        ONE, A( I, I+IB ), LDA, ONE, A( I, I ),
      $                        LDA )
                END IF
@@ -194,15 +194,15 @@
 *
             DO 20 I = 1, N, NB
                IB = MIN( NB, N-I+1 )
-               CALL DTRMM( 'Left', 'Lower', 'Transpose', 'Non-unit',
+               CALL DTRMM( 'L', 'L', 'T', 'N',
      $                     IB,
      $                     I-1, ONE, A( I, I ), LDA, A( I, 1 ), LDA )
-               CALL DLAUU2( 'Lower', IB, A( I, I ), LDA, INFO )
+               CALL DLAUU2( 'L', IB, A( I, I ), LDA, INFO )
                IF( I+IB.LE.N ) THEN
-                  CALL DGEMM( 'Transpose', 'No transpose', IB, I-1,
+                  CALL DGEMM( 'T', 'N', IB, I-1,
      $                        N-I-IB+1, ONE, A( I+IB, I ), LDA,
      $                        A( I+IB, 1 ), LDA, ONE, A( I, 1 ), LDA )
-                  CALL DSYRK( 'Lower', 'Transpose', IB, N-I-IB+1,
+                  CALL DSYRK( 'L', 'T', IB, N-I-IB+1,
      $                        ONE,
      $                        A( I+IB, I ), LDA, ONE, A( I, I ), LDA )
                END IF

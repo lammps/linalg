@@ -257,7 +257,7 @@
          CALL ZCOPY( K-1, A( 1, K ), 1, W( 1, KW ), 1 )
          W( K, KW ) = DBLE( A( K, K ) )
          IF( K.LT.N ) THEN
-            CALL ZGEMV( 'No transpose', K, N-K, -CONE, A( 1, K+1 ),
+            CALL ZGEMV( 'N', K, N-K, -CONE, A( 1, K+1 ),
      $                  LDA,
      $                  W( K, KW+1 ), LDW, CONE, W( 1, KW ), 1 )
             W( K, KW ) = DBLE( W( K, KW ) )
@@ -312,7 +312,7 @@
      $                     W( IMAX+1, KW-1 ), 1 )
                CALL ZLACGV( K-IMAX, W( IMAX+1, KW-1 ), 1 )
                IF( K.LT.N ) THEN
-                  CALL ZGEMV( 'No transpose', K, N-K, -CONE,
+                  CALL ZGEMV( 'N', K, N-K, -CONE,
      $                        A( 1, K+1 ), LDA, W( IMAX, KW+1 ), LDW,
      $                        CONE, W( 1, KW-1 ), 1 )
                   W( IMAX, KW-1 ) = DBLE( W( IMAX, KW-1 ) )
@@ -553,7 +553,7 @@
 *
 *        (note that conjg(W) is actually stored)
 *
-         CALL ZGEMMTR( 'Upper', 'No transpose', 'Transpose', K, N-K,
+         CALL ZGEMMTR( 'U', 'N', 'T', K, N-K,
      $                 -CONE, A( 1, K+1 ), LDA, W( 1, KW+1 ), LDW,
      $                 CONE, A( 1, 1 ), LDA )
 *
@@ -609,7 +609,7 @@
          W( K, K ) = DBLE( A( K, K ) )
          IF( K.LT.N )
      $      CALL ZCOPY( N-K, A( K+1, K ), 1, W( K+1, K ), 1 )
-         CALL ZGEMV( 'No transpose', N-K+1, K-1, -CONE, A( K, 1 ),
+         CALL ZGEMV( 'N', N-K+1, K-1, -CONE, A( K, 1 ),
      $               LDA,
      $               W( K, 1 ), LDW, CONE, W( K, K ), 1 )
          W( K, K ) = DBLE( W( K, K ) )
@@ -664,7 +664,7 @@
                IF( IMAX.LT.N )
      $            CALL ZCOPY( N-IMAX, A( IMAX+1, IMAX ), 1,
      $                        W( IMAX+1, K+1 ), 1 )
-               CALL ZGEMV( 'No transpose', N-K+1, K-1, -CONE, A( K,
+               CALL ZGEMV( 'N', N-K+1, K-1, -CONE, A( K,
      $                     1 ),
      $                     LDA, W( IMAX, 1 ), LDW, CONE, W( K, K+1 ),
      $                     1 )
@@ -900,7 +900,7 @@
 *
 *        (note that conjg(W) is actually stored)
 *
-         CALL ZGEMMTR( 'Lower', 'No transpose', 'Transpose', N-K+1,
+         CALL ZGEMMTR( 'L', 'N', 'T', N-K+1,
      $                 K-1, -CONE, A( K, 1 ), LDA, W( K, 1 ), LDW,
      $                 CONE, A( K, K ), LDA )
 *

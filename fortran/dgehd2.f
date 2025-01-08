@@ -201,12 +201,12 @@
 *
 *        Apply H(i) to A(1:ihi,i+1:ihi) from the right
 *
-         CALL DLARF1F( 'Right', IHI, IHI-I, A( I+1, I ), 1, TAU( I ),
+         CALL DLARF1F( 'R', IHI, IHI-I, A( I+1, I ), 1, TAU( I ),
      $               A( 1, I+1 ), LDA, WORK )
 *
 *        Apply H(i) to A(i+1:ihi,i+1:n) from the left
 *
-         CALL DLARF1F( 'Left', IHI-I, N-I, A( I+1, I ), 1, TAU( I ),
+         CALL DLARF1F( 'L', IHI-I, N-I, A( I+1, I ), 1, TAU( I ),
      $               A( I+1, I+1 ), LDA, WORK )
 *
    10 CONTINUE

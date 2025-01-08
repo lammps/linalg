@@ -197,16 +197,16 @@
 *
 *              Compute rows 1:j-1 of current block column
 *
-               CALL DTRMM( 'Left', 'Upper', 'No transpose', DIAG,
+               CALL DTRMM( 'L', 'U', 'N', DIAG,
      $                     J-1,
      $                     JB, ONE, A, LDA, A( 1, J ), LDA )
-               CALL DTRSM( 'Right', 'Upper', 'No transpose', DIAG,
+               CALL DTRSM( 'R', 'U', 'N', DIAG,
      $                     J-1,
      $                     JB, -ONE, A( J, J ), LDA, A( 1, J ), LDA )
 *
 *              Compute inverse of current diagonal block
 *
-               CALL DTRTI2( 'Upper', DIAG, JB, A( J, J ), LDA, INFO )
+               CALL DTRTI2( 'U', DIAG, JB, A( J, J ), LDA, INFO )
    20       CONTINUE
          ELSE
 *
@@ -219,17 +219,17 @@
 *
 *                 Compute rows j+jb:n of current block column
 *
-                  CALL DTRMM( 'Left', 'Lower', 'No transpose', DIAG,
+                  CALL DTRMM( 'L', 'L', 'N', DIAG,
      $                        N-J-JB+1, JB, ONE, A( J+JB, J+JB ), LDA,
      $                        A( J+JB, J ), LDA )
-                  CALL DTRSM( 'Right', 'Lower', 'No transpose', DIAG,
+                  CALL DTRSM( 'R', 'L', 'N', DIAG,
      $                        N-J-JB+1, JB, -ONE, A( J, J ), LDA,
      $                        A( J+JB, J ), LDA )
                END IF
 *
 *              Compute inverse of current diagonal block
 *
-               CALL DTRTI2( 'Lower', DIAG, JB, A( J, J ), LDA, INFO )
+               CALL DTRTI2( 'L', DIAG, JB, A( J, J ), LDA, INFO )
    30       CONTINUE
          END IF
       END IF

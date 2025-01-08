@@ -180,7 +180,7 @@
 *
          IF( I.LT.N ) THEN
             IF( I.LT.M ) THEN
-               CALL DLARF1F( 'Right', M-I, N-I+1, A( I, I ), LDA,
+               CALL DLARF1F( 'R', M-I, N-I+1, A( I, I ), LDA,
      $                     TAU( I ), A( I+1, I ), LDA, WORK )
             END IF
             CALL DSCAL( N-I, -TAU( I ), A( I, I+1 ), LDA )

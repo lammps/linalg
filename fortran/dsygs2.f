@@ -203,7 +203,7 @@
      $                        B( K, K+1 ), LDB, A( K+1, K+1 ), LDA )
                   CALL DAXPY( N-K, CT, B( K, K+1 ), LDB, A( K, K+1 ),
      $                        LDA )
-                  CALL DTRSV( UPLO, 'Transpose', 'Non-unit', N-K,
+                  CALL DTRSV( UPLO, 'T', 'N', N-K,
      $                        B( K+1, K+1 ), LDB, A( K, K+1 ), LDA )
                END IF
    10       CONTINUE
@@ -228,7 +228,7 @@
      $                        B( K+1, K ), 1, A( K+1, K+1 ), LDA )
                   CALL DAXPY( N-K, CT, B( K+1, K ), 1, A( K+1, K ),
      $                        1 )
-                  CALL DTRSV( UPLO, 'No transpose', 'Non-unit', N-K,
+                  CALL DTRSV( UPLO, 'N', 'N', N-K,
      $                        B( K+1, K+1 ), LDB, A( K+1, K ), 1 )
                END IF
    20       CONTINUE
@@ -244,7 +244,7 @@
 *
                AKK = A( K, K )
                BKK = B( K, K )
-               CALL DTRMV( UPLO, 'No transpose', 'Non-unit', K-1, B,
+               CALL DTRMV( UPLO, 'N', 'N', K-1, B,
      $                     LDB, A( 1, K ), 1 )
                CT = HALF*AKK
                CALL DAXPY( K-1, CT, B( 1, K ), 1, A( 1, K ), 1 )
@@ -265,7 +265,7 @@
 *
                AKK = A( K, K )
                BKK = B( K, K )
-               CALL DTRMV( UPLO, 'Transpose', 'Non-unit', K-1, B,
+               CALL DTRMV( UPLO, 'T', 'N', K-1, B,
      $                     LDB,
      $                     A( K, 1 ), LDA )
                CT = HALF*AKK

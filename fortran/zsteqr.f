@@ -227,7 +227,7 @@
 *     matrix.
 *
       IF( ICOMPZ.EQ.2 )
-     $   CALL ZLASET( 'Full', N, N, CZERO, CONE, Z, LDZ )
+     $   CALL ZLASET( 'F', N, N, CZERO, CONE, Z, LDZ )
 *
       NMAXIT = N*MAXIT
       JTOT = 0

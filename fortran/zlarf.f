@@ -199,7 +199,7 @@
 *
 *           w(1:lastc,1) := C(1:lastv,1:lastc)**H * v(1:lastv,1)
 *
-            CALL ZGEMV( 'Conjugate transpose', LASTV, LASTC, ONE,
+            CALL ZGEMV( 'C', LASTV, LASTC, ONE,
      $           C, LDC, V, INCV, ZERO, WORK, 1 )
 *
 *           C(1:lastv,1:lastc) := C(...) - v(1:lastv,1) * w(1:lastc,1)**H
@@ -215,7 +215,7 @@
 *
 *           w(1:lastc,1) := C(1:lastc,1:lastv) * v(1:lastv,1)
 *
-            CALL ZGEMV( 'No transpose', LASTC, LASTV, ONE, C, LDC,
+            CALL ZGEMV( 'N', LASTC, LASTV, ONE, C, LDC,
      $           V, INCV, ZERO, WORK, 1 )
 *
 *           C(1:lastc,1:lastv) := C(...) - w(1:lastc,1) * v(1:lastv,1)**H

@@ -320,7 +320,7 @@
 *
             EI = A( I+IB, I+IB-1 )
             A( I+IB, I+IB-1 ) = ONE
-            CALL DGEMM( 'No transpose', 'Transpose',
+            CALL DGEMM( 'N', 'T',
      $                  IHI, IHI-I-IB+1,
      $                  IB, -ONE, WORK, LDWORK, A( I+IB, I ), LDA, ONE,
      $                  A( 1, I+IB ), LDA )
@@ -329,8 +329,8 @@
 *           Apply the block reflector H to A(1:i,i+1:i+ib-1) from the
 *           right
 *
-            CALL DTRMM( 'Right', 'Lower', 'Transpose',
-     $                  'Unit', I, IB-1,
+            CALL DTRMM( 'R', 'L', 'T',
+     $                  'U', I, IB-1,
      $                  ONE, A( I+1, I ), LDA, WORK, LDWORK )
             DO 30 J = 0, IB-2
                CALL DAXPY( I, -ONE, WORK( LDWORK*J+1 ), 1,
@@ -340,8 +340,8 @@
 *           Apply the block reflector H to A(i+1:ihi,i+ib:n) from the
 *           left
 *
-            CALL DLARFB( 'Left', 'Transpose', 'Forward',
-     $                   'Columnwise',
+            CALL DLARFB( 'L', 'T', 'F',
+     $                   'C',
      $                   IHI-I, N-I-IB+1, IB, A( I+1, I ), LDA,
      $                   WORK( IWT ), LDT, A( I+1, I+IB ), LDA,
      $                   WORK, LDWORK )

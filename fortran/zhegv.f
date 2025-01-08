@@ -293,7 +293,7 @@
                TRANS = 'C'
             END IF
 *
-            CALL ZTRSM( 'Left', UPLO, TRANS, 'Non-unit', N, NEIG,
+            CALL ZTRSM( 'L', UPLO, TRANS, 'N', N, NEIG,
      $                  ONE,
      $                  B, LDB, A, LDA )
 *
@@ -308,7 +308,7 @@
                TRANS = 'N'
             END IF
 *
-            CALL ZTRMM( 'Left', UPLO, TRANS, 'Non-unit', N, NEIG,
+            CALL ZTRMM( 'L', UPLO, TRANS, 'N', N, NEIG,
      $                  ONE,
      $                  B, LDB, A, LDA )
          END IF

@@ -310,7 +310,7 @@
 *           Form the triangular factor of the block reflector
 *           H = H(i+ib-1) . . . H(i+1) H(i)
 *
-            CALL DLARFT( 'Backward', 'Columnwise', NQ-K+I+IB-1, IB,
+            CALL DLARFT( 'B', 'C', NQ-K+I+IB-1, IB,
      $                   A( 1, I ), LDA, TAU( I ), WORK( IWT ), LDT )
             IF( LEFT ) THEN
 *
@@ -326,7 +326,7 @@
 *
 *           Apply H or H**T
 *
-            CALL DLARFB( SIDE, TRANS, 'Backward', 'Columnwise', MI,
+            CALL DLARFB( SIDE, TRANS, 'B', 'C', MI,
      $                   NI,
      $                   IB, A( 1, I ), LDA, WORK( IWT ), LDT, C, LDC,
      $                   WORK, LDWORK )

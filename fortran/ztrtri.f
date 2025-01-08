@@ -198,16 +198,16 @@
 *
 *              Compute rows 1:j-1 of current block column
 *
-               CALL ZTRMM( 'Left', 'Upper', 'No transpose', DIAG,
+               CALL ZTRMM( 'L', 'U', 'N', DIAG,
      $                     J-1,
      $                     JB, ONE, A, LDA, A( 1, J ), LDA )
-               CALL ZTRSM( 'Right', 'Upper', 'No transpose', DIAG,
+               CALL ZTRSM( 'R', 'U', 'N', DIAG,
      $                     J-1,
      $                     JB, -ONE, A( J, J ), LDA, A( 1, J ), LDA )
 *
 *              Compute inverse of current diagonal block
 *
-               CALL ZTRTI2( 'Upper', DIAG, JB, A( J, J ), LDA, INFO )
+               CALL ZTRTI2( 'U', DIAG, JB, A( J, J ), LDA, INFO )
    20       CONTINUE
          ELSE
 *
@@ -220,17 +220,17 @@
 *
 *                 Compute rows j+jb:n of current block column
 *
-                  CALL ZTRMM( 'Left', 'Lower', 'No transpose', DIAG,
+                  CALL ZTRMM( 'L', 'L', 'N', DIAG,
      $                        N-J-JB+1, JB, ONE, A( J+JB, J+JB ), LDA,
      $                        A( J+JB, J ), LDA )
-                  CALL ZTRSM( 'Right', 'Lower', 'No transpose', DIAG,
+                  CALL ZTRSM( 'R', 'L', 'N', DIAG,
      $                        N-J-JB+1, JB, -ONE, A( J, J ), LDA,
      $                        A( J+JB, J ), LDA )
                END IF
 *
 *              Compute inverse of current diagonal block
 *
-               CALL ZTRTI2( 'Lower', DIAG, JB, A( J, J ), LDA, INFO )
+               CALL ZTRTI2( 'L', DIAG, JB, A( J, J ), LDA, INFO )
    30       CONTINUE
          END IF
       END IF

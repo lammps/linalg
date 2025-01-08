@@ -246,9 +246,9 @@
 *
 *              Update A(1:i,i)
 *
-               CALL DGEMV( 'No transpose', I, N-I, -ONE, A( 1, I+1 ),
+               CALL DGEMV( 'N', I, N-I, -ONE, A( 1, I+1 ),
      $                     LDA, W( I, IW+1 ), LDW, ONE, A( 1, I ), 1 )
-               CALL DGEMV( 'No transpose', I, N-I, -ONE, W( 1,
+               CALL DGEMV( 'N', I, N-I, -ONE, W( 1,
      $                     IW+1 ),
      $                     LDW, A( I, I+1 ), LDA, ONE, A( 1, I ), 1 )
             END IF
@@ -264,19 +264,19 @@
 *
 *              Compute W(1:i-1,i)
 *
-               CALL DSYMV( 'Upper', I-1, ONE, A, LDA, A( 1, I ), 1,
+               CALL DSYMV( 'U', I-1, ONE, A, LDA, A( 1, I ), 1,
      $                     ZERO, W( 1, IW ), 1 )
                IF( I.LT.N ) THEN
-                  CALL DGEMV( 'Transpose', I-1, N-I, ONE, W( 1,
+                  CALL DGEMV( 'T', I-1, N-I, ONE, W( 1,
      $                        IW+1 ),
      $                        LDW, A( 1, I ), 1, ZERO, W( I+1, IW ), 1 )
-                  CALL DGEMV( 'No transpose', I-1, N-I, -ONE,
+                  CALL DGEMV( 'N', I-1, N-I, -ONE,
      $                        A( 1, I+1 ), LDA, W( I+1, IW ), 1, ONE,
      $                        W( 1, IW ), 1 )
-                  CALL DGEMV( 'Transpose', I-1, N-I, ONE, A( 1,
+                  CALL DGEMV( 'T', I-1, N-I, ONE, A( 1,
      $                        I+1 ),
      $                        LDA, A( 1, I ), 1, ZERO, W( I+1, IW ), 1 )
-                  CALL DGEMV( 'No transpose', I-1, N-I, -ONE,
+                  CALL DGEMV( 'N', I-1, N-I, -ONE,
      $                        W( 1, IW+1 ), LDW, W( I+1, IW ), 1, ONE,
      $                        W( 1, IW ), 1 )
                END IF
@@ -295,9 +295,9 @@
 *
 *           Update A(i:n,i)
 *
-            CALL DGEMV( 'No transpose', N-I+1, I-1, -ONE, A( I, 1 ),
+            CALL DGEMV( 'N', N-I+1, I-1, -ONE, A( I, 1 ),
      $                  LDA, W( I, 1 ), LDW, ONE, A( I, I ), 1 )
-            CALL DGEMV( 'No transpose', N-I+1, I-1, -ONE, W( I, 1 ),
+            CALL DGEMV( 'N', N-I+1, I-1, -ONE, W( I, 1 ),
      $                  LDW, A( I, 1 ), LDA, ONE, A( I, I ), 1 )
             IF( I.LT.N ) THEN
 *
@@ -312,18 +312,18 @@
 *
 *              Compute W(i+1:n,i)
 *
-               CALL DSYMV( 'Lower', N-I, ONE, A( I+1, I+1 ), LDA,
+               CALL DSYMV( 'L', N-I, ONE, A( I+1, I+1 ), LDA,
      $                     A( I+1, I ), 1, ZERO, W( I+1, I ), 1 )
-               CALL DGEMV( 'Transpose', N-I, I-1, ONE, W( I+1, 1 ),
+               CALL DGEMV( 'T', N-I, I-1, ONE, W( I+1, 1 ),
      $                     LDW,
      $                     A( I+1, I ), 1, ZERO, W( 1, I ), 1 )
-               CALL DGEMV( 'No transpose', N-I, I-1, -ONE, A( I+1,
+               CALL DGEMV( 'N', N-I, I-1, -ONE, A( I+1,
      $                     1 ),
      $                     LDA, W( 1, I ), 1, ONE, W( I+1, I ), 1 )
-               CALL DGEMV( 'Transpose', N-I, I-1, ONE, A( I+1, 1 ),
+               CALL DGEMV( 'T', N-I, I-1, ONE, A( I+1, 1 ),
      $                     LDA,
      $                     A( I+1, I ), 1, ZERO, W( 1, I ), 1 )
-               CALL DGEMV( 'No transpose', N-I, I-1, -ONE, W( I+1,
+               CALL DGEMV( 'N', N-I, I-1, -ONE, W( I+1,
      $                     1 ),
      $                     LDW, W( 1, I ), 1, ONE, W( I+1, I ), 1 )
                CALL DSCAL( N-I, TAU( I ), W( I+1, I ), 1 )

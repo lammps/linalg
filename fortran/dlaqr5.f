@@ -390,7 +390,7 @@
 *
          NDCOL = INCOL + KDU
          IF( ACCUM )
-     $      CALL DLASET( 'ALL', KDU, KDU, ZERO, ONE, U, LDU )
+     $      CALL DLASET( 'A', KDU, KDU, ZERO, ONE, U, LDU )
 *
 *        ==== Near-the-diagonal bulge chase.  The following loop
 *        .    performs the near-the-diagonal part of a small bulge
@@ -802,7 +802,7 @@
                CALL DGEMM( 'C', 'N', NU, JLEN, NU, ONE, U( K1, K1 ),
      $                        LDU, H( INCOL+K1, JCOL ), LDH, ZERO, WH,
      $                        LDWH )
-               CALL DLACPY( 'ALL', NU, JLEN, WH, LDWH,
+               CALL DLACPY( 'A', NU, JLEN, WH, LDWH,
      $                         H( INCOL+K1, JCOL ), LDH )
   150       CONTINUE
 *
@@ -813,7 +813,7 @@
                CALL DGEMM( 'N', 'N', JLEN, NU, NU, ONE,
      $                     H( JROW, INCOL+K1 ), LDH, U( K1, K1 ),
      $                     LDU, ZERO, WV, LDWV )
-               CALL DLACPY( 'ALL', JLEN, NU, WV, LDWV,
+               CALL DLACPY( 'A', JLEN, NU, WV, LDWV,
      $                      H( JROW, INCOL+K1 ), LDH )
   160       CONTINUE
 *
@@ -825,7 +825,7 @@
                   CALL DGEMM( 'N', 'N', JLEN, NU, NU, ONE,
      $                        Z( JROW, INCOL+K1 ), LDZ, U( K1, K1 ),
      $                        LDU, ZERO, WV, LDWV )
-                  CALL DLACPY( 'ALL', JLEN, NU, WV, LDWV,
+                  CALL DLACPY( 'A', JLEN, NU, WV, LDWV,
      $                         Z( JROW, INCOL+K1 ), LDZ )
   170          CONTINUE
             END IF

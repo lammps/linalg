@@ -253,7 +253,7 @@
 *
          CALL ZCOPY( K, A( 1, K ), 1, W( 1, KW ), 1 )
          IF( K.LT.N )
-     $      CALL ZGEMV( 'No transpose', K, N-K, -CONE, A( 1, K+1 ),
+     $      CALL ZGEMV( 'N', K, N-K, -CONE, A( 1, K+1 ),
      $                  LDA,
      $                  W( K, KW+1 ), LDW, CONE, W( 1, KW ), 1 )
 *
@@ -295,7 +295,7 @@
                CALL ZCOPY( K-IMAX, A( IMAX, IMAX+1 ), LDA,
      $                     W( IMAX+1, KW-1 ), 1 )
                IF( K.LT.N )
-     $            CALL ZGEMV( 'No transpose', K, N-K, -CONE,
+     $            CALL ZGEMV( 'N', K, N-K, -CONE,
      $                        A( 1, K+1 ), LDA, W( IMAX, KW+1 ), LDW,
      $                        CONE, W( 1, KW-1 ), 1 )
 *
@@ -481,7 +481,7 @@
 *
 *        A11 := A11 - U12*D*U12**T = A11 - U12*W**T
 *
-         CALL ZGEMMTR( 'Upper', 'No transpose', 'Transpose', K, N-K,
+         CALL ZGEMMTR( 'U', 'N', 'T', K, N-K,
      $                 -CONE, A( 1, K+1 ), LDA, W( 1, KW+1 ), LDW,
      $                 CONE, A( 1, 1 ), LDA )
 *
@@ -533,7 +533,7 @@
 *        Copy column K of A to column K of W and update it
 *
          CALL ZCOPY( N-K+1, A( K, K ), 1, W( K, K ), 1 )
-         CALL ZGEMV( 'No transpose', N-K+1, K-1, -CONE, A( K, 1 ),
+         CALL ZGEMV( 'N', N-K+1, K-1, -CONE, A( K, 1 ),
      $               LDA,
      $               W( K, 1 ), LDW, CONE, W( K, K ), 1 )
 *
@@ -576,7 +576,7 @@
                CALL ZCOPY( N-IMAX+1, A( IMAX, IMAX ), 1, W( IMAX,
      $                     K+1 ),
      $                     1 )
-               CALL ZGEMV( 'No transpose', N-K+1, K-1, -CONE, A( K,
+               CALL ZGEMV( 'N', N-K+1, K-1, -CONE, A( K,
      $                     1 ),
      $                     LDA, W( IMAX, 1 ), LDW, CONE, W( K, K+1 ),
      $                     1 )
@@ -760,7 +760,7 @@
 *
 *        A22 := A22 - L21*D*L21**T = A22 - L21*W**T
 *
-         CALL ZGEMMTR( 'Lower', 'No transpose', 'Transpose', N-K+1,
+         CALL ZGEMMTR( 'L', 'N', 'T', N-K+1,
      $                 K-1, -CONE, A( K, 1 ), LDA, W( K, 1 ), LDW,
      $                 CONE, A( K, K ), LDA )
 *

@@ -202,7 +202,7 @@
 *
 *              Compute block row of U.
 *
-               CALL DTRSM( 'Left', 'Lower', 'No transpose', 'Unit',
+               CALL DTRSM( 'L', 'L', 'N', 'U',
      $                     JB,
      $                     N-J-JB+1, ONE, A( J, J ), LDA, A( J, J+JB ),
      $                     LDA )
@@ -210,7 +210,7 @@
 *
 *                 Update trailing submatrix.
 *
-                  CALL DGEMM( 'No transpose', 'No transpose',
+                  CALL DGEMM( 'N', 'N',
      $                        M-J-JB+1,
      $                        N-J-JB+1, JB, -ONE, A( J+JB, J ), LDA,
      $                        A( J, J+JB ), LDA, ONE, A( J+JB, J+JB ),

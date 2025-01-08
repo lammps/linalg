@@ -184,21 +184,21 @@
 *              for non-positive-definiteness.
 *
                JB = MIN( NB, N-J+1 )
-               CALL DSYRK( 'Upper', 'Transpose', JB, J-1, -ONE,
+               CALL DSYRK( 'U', 'T', JB, J-1, -ONE,
      $                     A( 1, J ), LDA, ONE, A( J, J ), LDA )
-               CALL DPOTRF2( 'Upper', JB, A( J, J ), LDA, INFO )
+               CALL DPOTRF2( 'U', JB, A( J, J ), LDA, INFO )
                IF( INFO.NE.0 )
      $            GO TO 30
                IF( J+JB.LE.N ) THEN
 *
 *                 Compute the current block row.
 *
-                  CALL DGEMM( 'Transpose', 'No transpose', JB,
+                  CALL DGEMM( 'T', 'N', JB,
      $                        N-J-JB+1,
      $                        J-1, -ONE, A( 1, J ), LDA, A( 1, J+JB ),
      $                        LDA, ONE, A( J, J+JB ), LDA )
-                  CALL DTRSM( 'Left', 'Upper', 'Transpose',
-     $                        'Non-unit',
+                  CALL DTRSM( 'L', 'U', 'T',
+     $                        'N',
      $                        JB, N-J-JB+1, ONE, A( J, J ), LDA,
      $                        A( J, J+JB ), LDA )
                END IF
@@ -214,21 +214,21 @@
 *              for non-positive-definiteness.
 *
                JB = MIN( NB, N-J+1 )
-               CALL DSYRK( 'Lower', 'No transpose', JB, J-1, -ONE,
+               CALL DSYRK( 'L', 'N', JB, J-1, -ONE,
      $                     A( J, 1 ), LDA, ONE, A( J, J ), LDA )
-               CALL DPOTRF2( 'Lower', JB, A( J, J ), LDA, INFO )
+               CALL DPOTRF2( 'L', JB, A( J, J ), LDA, INFO )
                IF( INFO.NE.0 )
      $            GO TO 30
                IF( J+JB.LE.N ) THEN
 *
 *                 Compute the current block column.
 *
-                  CALL DGEMM( 'No transpose', 'Transpose', N-J-JB+1,
+                  CALL DGEMM( 'N', 'T', N-J-JB+1,
      $                        JB,
      $                        J-1, -ONE, A( J+JB, 1 ), LDA, A( J, 1 ),
      $                        LDA, ONE, A( J+JB, J ), LDA )
-                  CALL DTRSM( 'Right', 'Lower', 'Transpose',
-     $                        'Non-unit',
+                  CALL DTRSM( 'R', 'L', 'T',
+     $                        'N',
      $                        N-J-JB+1, JB, ONE, A( J, J ), LDA,
      $                        A( J+JB, J ), LDA )
                END IF

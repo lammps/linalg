@@ -168,7 +168,7 @@
 *
 *        Solve the system A*X = B, overwriting B with X.
 *
-         CALL DGETRS( 'No transpose', N, NRHS, A, LDA, IPIV, B, LDB,
+         CALL DGETRS( 'N', N, NRHS, A, LDA, IPIV, B, LDB,
      $                INFO )
       END IF
       RETURN

@@ -315,14 +315,14 @@
 *
 *        T_{1,2} = T_{1,2}*V_{2,2}
 *
-         CALL DTRMM('Right', 'Lower', 'No transpose', 'Unit', L,
+         CALL DTRMM('R', 'L', 'N', 'U', L,
      $               K-L, ONE, V(L+1, L+1), LDV, T(1, L+1), LDT)
 
 *
 *        T_{1,2} = V_{3,1}'*V_{3,2} + T_{1,2}
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL DGEMM('Transpose', 'No transpose', L, K-L, N-K, ONE, 
+         CALL DGEMM('T', 'N', L, K-L, N-K, ONE, 
      $               V(K+1, 1), LDV, V(K+1, L+1), LDV, ONE, 
      $               T(1, L+1), LDT)
 *
@@ -332,12 +332,12 @@
 *
 *        T_{1,2} = -T_{1,1}*T_{1,2}
 *
-         CALL DTRMM('Left', 'Upper', 'No transpose', 'Non-unit', L,
+         CALL DTRMM('L', 'U', 'N', 'N', L,
      $               K-L, NEG_ONE, T, LDT, T(1, L+1), LDT)
 *
 *        T_{1,2} = T_{1,2}*T_{2,2}
 *
-         CALL DTRMM('Right', 'Upper', 'No transpose', 'Non-unit', L, 
+         CALL DTRMM('R', 'U', 'N', 'N', L, 
      $               K-L, ONE, T(L+1, L+1), LDT, T(1, L+1), LDT)
 
       ELSE IF(LQ) THEN
@@ -403,18 +403,18 @@
 *        Compute T_{1,2}
 *        T_{1,2} = V_{1,2}
 *
-         CALL DLACPY('All', L, K-L, V(1, L+1), LDV, T(1, L+1), LDT)
+         CALL DLACPY('A', L, K-L, V(1, L+1), LDV, T(1, L+1), LDT)
 *
 *        T_{1,2} = T_{1,2}*V_{2,2}'
 *
-         CALL DTRMM('Right', 'Upper', 'Transpose', 'Unit', L, K-L,
+         CALL DTRMM('R', 'U', 'T', 'U', L, K-L,
      $               ONE, V(L+1, L+1), LDV, T(1, L+1), LDT)
 
 *
 *        T_{1,2} = V_{1,3}*V_{2,3}' + T_{1,2}
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL DGEMM('No transpose', 'Transpose', L, K-L, N-K, ONE,
+         CALL DGEMM('N', 'T', L, K-L, N-K, ONE,
      $               V(1, K+1), LDV, V(L+1, K+1), LDV, ONE, 
      $               T(1, L+1), LDT)
 *
@@ -424,13 +424,13 @@
 *
 *        T_{1,2} = -T_{1,1}*T_{1,2}
 *
-         CALL DTRMM('Left', 'Upper', 'No transpose', 'Non-unit', L,
+         CALL DTRMM('L', 'U', 'N', 'N', L,
      $               K-L, NEG_ONE, T, LDT, T(1, L+1), LDT)
 
 *
 *        T_{1,2} = T_{1,2}*T_{2,2}
 *
-         CALL DTRMM('Right', 'Upper', 'No transpose', 'Non-unit', L,
+         CALL DTRMM('R', 'U', 'N', 'N', L,
      $               K-L, ONE, T(L+1, L+1), LDT, T(1, L+1), LDT)
       ELSE IF(QL) THEN
 *
@@ -502,14 +502,14 @@
 *
 *        T_{2,1} = T_{2,1}*V_{2,1}
 *
-         CALL DTRMM('Right', 'Upper', 'No transpose', 'Unit', L,
+         CALL DTRMM('R', 'U', 'N', 'U', L,
      $               K-L, ONE, V(N-K+1, 1), LDV, T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = V_{2,2}'*V_{2,1} + T_{2,1}
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL DGEMM('Transpose', 'No transpose', L, K-L, N-K, ONE,
+         CALL DGEMM('T', 'N', L, K-L, N-K, ONE,
      $               V(1, K-L+1), LDV, V, LDV, ONE, T(K-L+1, 1),
      $               LDT)
 *
@@ -519,13 +519,13 @@
 *
 *        T_{2,1} = -T_{2,2}*T_{2,1}
 *
-         CALL DTRMM('Left', 'Lower', 'No transpose', 'Non-unit', L,
+         CALL DTRMM('L', 'L', 'N', 'N', L,
      $               K-L, NEG_ONE, T(K-L+1, K-L+1), LDT,
      $               T(K-L+1, 1), LDT)
 *
 *        T_{2,1} = T_{2,1}*T_{1,1}
 *
-         CALL DTRMM('Right', 'Lower', 'No transpose', 'Non-unit', L,
+         CALL DTRMM('R', 'L', 'N', 'N', L,
      $               K-L, ONE, T, LDT, T(K-L+1, 1), LDT)
       ELSE
 *
@@ -591,20 +591,20 @@
 *        Compute T_{2,1}
 *        T_{2,1} = V_{2,2}
 *
-         CALL DLACPY('All', L, K-L, V(K-L+1, N-K+1), LDV,
+         CALL DLACPY('A', L, K-L, V(K-L+1, N-K+1), LDV,
      $               T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = T_{2,1}*V_{1,2}'
 *
-         CALL DTRMM('Right', 'Lower', 'Transpose', 'Unit', L, K-L,
+         CALL DTRMM('R', 'L', 'T', 'U', L, K-L,
      $               ONE, V(1, N-K+1), LDV, T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = V_{2,1}*V_{1,1}' + T_{2,1} 
 *        Note: We assume K <= N, and GEMM will do nothing if N=K
 *
-         CALL DGEMM('No transpose', 'Transpose', L, K-L, N-K, ONE, 
+         CALL DGEMM('N', 'T', L, K-L, N-K, ONE, 
      $               V(K-L+1, 1), LDV, V, LDV, ONE, T(K-L+1, 1),
      $               LDT)
 
@@ -615,14 +615,14 @@
 *
 *        T_{2,1} = -T_{2,2}*T_{2,1}
 *
-         CALL DTRMM('Left', 'Lower', 'No tranpose', 'Non-unit', L,
+         CALL DTRMM('L', 'L', 'No tranpose', 'N', L,
      $               K-L, NEG_ONE, T(K-L+1, K-L+1), LDT,
      $               T(K-L+1, 1), LDT)
 
 *
 *        T_{2,1} = T_{2,1}*T_{1,1}
 *
-         CALL DTRMM('Right', 'Lower', 'No tranpose', 'Non-unit', L,
+         CALL DTRMM('R', 'L', 'No tranpose', 'N', L,
      $               K-L, ONE, T, LDT, T(K-L+1, 1), LDT)
       END IF
       END SUBROUTINE

@@ -286,7 +286,7 @@
                TRANS = 'T'
             END IF
 *
-            CALL DTRSM( 'Left', UPLO, TRANS, 'Non-unit', N, NEIG,
+            CALL DTRSM( 'L', UPLO, TRANS, 'N', N, NEIG,
      $                  ONE,
      $                  B, LDB, A, LDA )
 *
@@ -301,7 +301,7 @@
                TRANS = 'N'
             END IF
 *
-            CALL DTRMM( 'Left', UPLO, TRANS, 'Non-unit', N, NEIG,
+            CALL DTRMM( 'L', UPLO, TRANS, 'N', N, NEIG,
      $                  ONE,
      $                  B, LDB, A, LDA )
          END IF

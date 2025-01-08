@@ -168,7 +168,7 @@
      $            LDA,
      $                     A( I, I+1 ), LDA ) )
                CALL ZLACGV( N-I, A( I, I+1 ), LDA )
-               CALL ZGEMV( 'No transpose', I-1, N-I, ONE, A( 1,
+               CALL ZGEMV( 'N', I-1, N-I, ONE, A( 1,
      $                     I+1 ),
      $                     LDA, A( I, I+1 ), LDA, DCMPLX( AII ),
      $                     A( 1, I ), 1 )
@@ -189,7 +189,7 @@
      $            1,
      $                     A( I+1, I ), 1 ) )
                CALL ZLACGV( I-1, A( I, 1 ), LDA )
-               CALL ZGEMV( 'Conjugate transpose', N-I, I-1, ONE,
+               CALL ZGEMV( 'C', N-I, I-1, ONE,
      $                     A( I+1, 1 ), LDA, A( I+1, I ), 1,
      $                     DCMPLX( AII ), A( I, 1 ), LDA )
                CALL ZLACGV( I-1, A( I, 1 ), LDA )

@@ -323,11 +323,11 @@
 *        Update the trailing submatrix A(i+nb:m,i+nb:n), using an update
 *        of the form  A := A - V*Y**T - X*U**T
 *
-         CALL DGEMM( 'No transpose', 'Transpose', M-I-NB+1, N-I-NB+1,
+         CALL DGEMM( 'N', 'T', M-I-NB+1, N-I-NB+1,
      $               NB, -ONE, A( I+NB, I ), LDA,
      $               WORK( LDWRKX*NB+NB+1 ), LDWRKY, ONE,
      $               A( I+NB, I+NB ), LDA )
-         CALL DGEMM( 'No transpose', 'No transpose', M-I-NB+1,
+         CALL DGEMM( 'N', 'N', M-I-NB+1,
      $               N-I-NB+1,
      $               NB, -ONE, WORK( NB+1 ), LDWRKX, A( I, I+NB ), LDA,
      $               ONE, A( I+NB, I+NB ), LDA )

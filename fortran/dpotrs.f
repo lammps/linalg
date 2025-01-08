@@ -172,13 +172,13 @@
 *
 *        Solve U**T *X = B, overwriting B with X.
 *
-         CALL DTRSM( 'Left', 'Upper', 'Transpose', 'Non-unit', N,
+         CALL DTRSM( 'L', 'U', 'T', 'N', N,
      $               NRHS,
      $               ONE, A, LDA, B, LDB )
 *
 *        Solve U*X = B, overwriting B with X.
 *
-         CALL DTRSM( 'Left', 'Upper', 'No transpose', 'Non-unit', N,
+         CALL DTRSM( 'L', 'U', 'N', 'N', N,
      $               NRHS, ONE, A, LDA, B, LDB )
       ELSE
 *
@@ -186,12 +186,12 @@
 *
 *        Solve L*X = B, overwriting B with X.
 *
-         CALL DTRSM( 'Left', 'Lower', 'No transpose', 'Non-unit', N,
+         CALL DTRSM( 'L', 'L', 'N', 'N', N,
      $               NRHS, ONE, A, LDA, B, LDB )
 *
 *        Solve L**T *X = B, overwriting B with X.
 *
-         CALL DTRSM( 'Left', 'Lower', 'Transpose', 'Non-unit', N,
+         CALL DTRSM( 'L', 'L', 'T', 'N', N,
      $               NRHS,
      $               ONE, A, LDA, B, LDB )
       END IF

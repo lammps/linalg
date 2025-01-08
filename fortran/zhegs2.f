@@ -211,8 +211,8 @@
                   CALL ZAXPY( N-K, CT, B( K, K+1 ), LDB, A( K, K+1 ),
      $                        LDA )
                   CALL ZLACGV( N-K, B( K, K+1 ), LDB )
-                  CALL ZTRSV( UPLO, 'Conjugate transpose',
-     $                        'Non-unit',
+                  CALL ZTRSV( UPLO, 'C',
+     $                        'N',
      $                        N-K, B( K+1, K+1 ), LDB, A( K, K+1 ),
      $                        LDA )
                   CALL ZLACGV( N-K, A( K, K+1 ), LDA )
@@ -239,7 +239,7 @@
      $                        B( K+1, K ), 1, A( K+1, K+1 ), LDA )
                   CALL ZAXPY( N-K, CT, B( K+1, K ), 1, A( K+1, K ),
      $                        1 )
-                  CALL ZTRSV( UPLO, 'No transpose', 'Non-unit', N-K,
+                  CALL ZTRSV( UPLO, 'N', 'N', N-K,
      $                        B( K+1, K+1 ), LDB, A( K+1, K ), 1 )
                END IF
    20       CONTINUE
@@ -255,7 +255,7 @@
 *
                AKK = DBLE( A( K, K ) )
                BKK = DBLE( B( K, K ) )
-               CALL ZTRMV( UPLO, 'No transpose', 'Non-unit', K-1, B,
+               CALL ZTRMV( UPLO, 'N', 'N', K-1, B,
      $                     LDB, A( 1, K ), 1 )
                CT = HALF*AKK
                CALL ZAXPY( K-1, CT, B( 1, K ), 1, A( 1, K ), 1 )
@@ -277,7 +277,7 @@
                AKK = DBLE( A( K, K ) )
                BKK = DBLE( B( K, K ) )
                CALL ZLACGV( K-1, A( K, 1 ), LDA )
-               CALL ZTRMV( UPLO, 'Conjugate transpose', 'Non-unit',
+               CALL ZTRMV( UPLO, 'C', 'N',
      $                     K-1,
      $                     B, LDB, A( K, 1 ), LDA )
                CT = HALF*AKK

@@ -1,4 +1,4 @@
-#!/bin/sh -vx
+#!/bin/sh
 # this command replaces typical long string with 
 # a single character same as the LAPACK subroutine requires.
 # In Fortran there is no difference, but in C++ it can matter.

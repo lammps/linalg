@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.16..3.30)
 
-project(linalg VERSION 1.4.3
+project(linalg VERSION 1.4.4
   DESCRIPTION "BLAS/LAPACK functions translated to C++ as required by the LAMMPS MD package"
   LANGUAGES CXX)
 
@@ -74,6 +74,7 @@ configure_file(${CMAKE_SOURCE_DIR}/static/lmp_f2c.h ${CMAKE_BINARY_DIR}/lmp_f2c.
 # - fix up the extern "C" statements that got messed up with the previous fix
 # - change including f2c.h to lmp_f2c.h to avoid conflicts with a system f2c
 # - rename calls to libf2c functions to include lmp_ so they use the provided custom functions, e.g. s_cat becomes c_lmp_cat
+# - replace "*n - 1 << 1" with "(*n - 1) << 1" to silence some compiler warnings
 foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
   string(REGEX REPLACE ".*(fortran|static).([^.]*)\\.f\$" "${CMAKE_CURRENT_BINARY_DIR}/\\2.cpp" _CXX ${_F})
   add_custom_command(OUTPUT ${_CXX} VERBATIM MAIN_DEPENDENCY ${_F}
@@ -87,7 +88,8 @@ foreach(_F ${STANDARD_FORTRAN_SOURCES} ${CUSTOM_FORTRAN_SOURCES})
                            -e s,d_\\\(sign\\\|cnjg\\\|imag\\\|lg10\\\)\(,d_lmp_\\1\(,g
                            -e s,z_\\\(abs\\\|div\\\)\(,z_lmp_\\1\(,g
                            -e s,i_\\\(len\\\|nint\\\|dnnt\\\)\(,i_lmp_\\1\(,g
-                           -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g > ${_CXX}
+                           -e s,pow_\\\(dd\\\|di\\\|ii\\\)\(,pow_lmp_\\1\(,g
+                           -e s,\\\(\\\*n\ -\ 1\\\)\ \<\<\ 1,\(\\1\)\ \<\<\ 1, > ${_CXX}
         COMMAND ${CMAKE_COMMAND} -E remove -f ${_CXX}.tmp)
 endforeach()
 

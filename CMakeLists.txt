@@ -1,8 +1,8 @@
 # Translate BLAS/LAPACK subset to C++. Compile and setup tests.
 
-cmake_minimum_required(VERSION 3.16..3.30)
+cmake_minimum_required(VERSION 3.20..4.4)
 
-project(linalg VERSION 1.4.5
+project(linalg VERSION 1.4.6
   DESCRIPTION "BLAS/LAPACK functions translated to C++ as required by the LAMMPS MD package"
   LANGUAGES CXX)
 
